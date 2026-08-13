@@ -5,6 +5,9 @@ const INSTAGRAM_LINK = "https://instagram.com/thepadelbeast";
 const PHONE_DISPLAY = "+971 50 945 3562";
 const PHONE_LINK = "tel:+971509453562";
 const EMAIL = "thepadelbeast@gmail.com";
+const SHOP_LINK = "https://3kkiah-gw.myshopify.com";
+
+const SOON_BADGE_HTML = `<span class="text-[0.6rem] font-bold uppercase tracking-wide bg-red text-paper px-1.5 py-0.5 rounded-full leading-none">Soon</span>`;
 
 const LOGO_HTML = `
 <span class="relative inline-flex items-center justify-center w-11 h-11 bg-ink rounded-xl -rotate-3 shadow-card shrink-0">
@@ -44,6 +47,9 @@ const NAV_HTML = `
     </a>
     <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold">
       ${navLinkHTML(false)}
+      <a href="${SHOP_LINK}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-ink-soft hover:text-red transition-colors">
+        <span>Shop</span>${SOON_BADGE_HTML}
+      </a>
     </nav>
     <div class="hidden lg:flex items-center gap-3">
       <a href="${WHATSAPP_LINK}" target="_blank" rel="noopener" class="btn btn-primary btn-sm">${icon("whatsapp")}<span>WhatsApp Us</span></a>
@@ -54,6 +60,9 @@ const NAV_HTML = `
   </div>
   <div id="mobileMenu" class="lg:hidden hidden border-t border-border bg-paper px-5 py-4 space-y-1">
     ${navLinkHTML(true)}
+    <a href="${SHOP_LINK}" target="_blank" rel="noopener" class="flex items-center gap-2 py-2 font-semibold text-ink">
+      <span>Shop</span>${SOON_BADGE_HTML}
+    </a>
     <a href="${WHATSAPP_LINK}" target="_blank" rel="noopener" class="btn btn-primary w-full mt-3">${icon("whatsapp")}<span>WhatsApp Us</span></a>
   </div>
 </header>`;
@@ -77,6 +86,7 @@ const FOOTER_HTML = `
         <li><a href="academies.html" class="hover:text-white transition-colors">Academies</a></li>
         <li><a href="team.html" class="hover:text-white transition-colors">Coaches</a></li>
         <li><a href="partners.html" class="hover:text-white transition-colors">For clubs</a></li>
+        <li><a href="${SHOP_LINK}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-white transition-colors">Shop${SOON_BADGE_HTML}</a></li>
       </ul>
     </div>
     <div>
