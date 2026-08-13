@@ -9,13 +9,16 @@ const SHOP_LINK = "https://3kkiah-gw.myshopify.com";
 
 const SOON_BADGE_HTML = `<span class="text-[0.6rem] font-bold uppercase tracking-wide bg-red text-paper px-1.5 py-0.5 rounded-full leading-none">Soon</span>`;
 
-const LOGO_HTML = `
-<span class="relative inline-flex items-center justify-center w-11 h-11 bg-ink rounded-xl -rotate-3 shadow-card shrink-0">
-  <span class="-rotate-1 text-center leading-[0.62] font-heading text-paper" style="font-size:0.62rem; letter-spacing:0.02em;">
-    <span class="block">PADEL</span>
-    <span class="block text-red">BEAST</span>
-  </span>
+// Recreates the Padel Beast wordmark (stacked PADEL / BEAST, bold condensed,
+// white fill with a dark outline so it reads on both light and dark sections)
+// using the site's own Anton font rather than a rasterized logo file.
+function logoHTML(sizeClass) {
+  return `
+<span class="pb-logo-mark ${sizeClass || "text-xl"} shrink-0" aria-label="Padel Beast">
+  <span>PADEL</span>
+  <span>BEAST</span>
 </span>`;
+}
 
 const NAV_LINKS = [
   ["index.html", "Home"],
@@ -42,8 +45,7 @@ const NAV_HTML = `
 <header class="sticky top-0 z-40 bg-paper/95 backdrop-blur border-b border-border">
   <div class="max-w-7xl mx-auto px-5 md:px-8 h-20 flex items-center justify-between gap-4">
     <a href="index.html" class="flex items-center gap-3 shrink-0">
-      ${LOGO_HTML}
-      <span class="hidden sm:block font-heading text-ink text-lg leading-none">PADEL<span class="text-red">BEAST</span></span>
+      ${logoHTML("text-2xl -rotate-2")}
     </a>
     <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold">
       ${navLinkHTML(false)}
@@ -72,8 +74,7 @@ const FOOTER_HTML = `
   <div class="max-w-7xl mx-auto px-5 md:px-8 py-16 grid grid-cols-2 md:grid-cols-5 gap-10">
     <div class="col-span-2">
       <a href="index.html" class="flex items-center gap-3 mb-4">
-        ${LOGO_HTML}
-        <span class="font-heading text-paper text-lg leading-none">PADEL<span class="text-red">BEAST</span></span>
+        ${logoHTML("text-3xl -rotate-2")}
       </a>
       <p class="text-sm text-white/60 max-w-xs mb-1">Building communities. Growing clubs. Elevating padel.</p>
       <p class="text-xs text-white/40 max-w-xs">A community-first padel operator based in Abu Dhabi, UAE.</p>
