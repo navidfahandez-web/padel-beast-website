@@ -25,6 +25,7 @@ const NAV_LINKS = [
   ["about.html", "About"],
   ["services.html", "Services"],
   ["academies.html", "Academies"],
+  ["trips.html", "Trips"],
   ["team.html", "Team"],
   ["partners.html", "For Clubs"],
   ["contact.html", "Contact"],
@@ -85,6 +86,7 @@ const FOOTER_HTML = `
         <li><a href="about.html" class="hover:text-white transition-colors">About us</a></li>
         <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
         <li><a href="academies.html" class="hover:text-white transition-colors">Academies</a></li>
+        <li><a href="trips.html" class="hover:text-white transition-colors">Padel trips</a></li>
         <li><a href="team.html" class="hover:text-white transition-colors">Coaches</a></li>
         <li><a href="partners.html" class="hover:text-white transition-colors">For clubs</a></li>
         <li><a href="${SHOP_LINK}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-white transition-colors">Shop${SOON_BADGE_HTML}</a></li>
