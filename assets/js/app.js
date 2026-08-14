@@ -93,7 +93,7 @@ const FOOTER_HTML = `
       <div class="font-semibold text-sm mb-3 text-white/90">Our venues</div>
       <ul class="space-y-2 text-sm text-white/60">
         <li><a href="venues.html" class="hover:text-white transition-colors">The Padel Project</a><br /><span class="text-white/40">Musaffah, Abu Dhabi</span></li>
-        <li class="pt-1"><a href="venues.html" class="hover:text-white transition-colors">UAEJJ Fitness</a><br /><span class="text-white/40">Al Falah &amp; MBZ</span></li>
+        <li class="pt-1"><a href="venues.html" class="hover:text-white transition-colors">UAEJJ Fitness MBZ</a><br /><span class="text-white/40">MBZ, Abu Dhabi</span></li>
       </ul>
     </div>
     <div>
