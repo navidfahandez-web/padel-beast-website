@@ -21,7 +21,8 @@ const NAV_LINKS = [
   ["about.html", "About"],
   ["services.html", "Services"],
   ["academies.html", "PB Academy"],
-  ["trips.html", "Trips"],
+  ["venues.html", "Venues"],
+  ["camps.html", "Camps"],
   ["team.html", "Team"],
   ["partners.html", "For Clubs"],
   ["contact.html", "Contact"],
@@ -82,7 +83,7 @@ const FOOTER_HTML = `
         <li><a href="about.html" class="hover:text-white transition-colors">About us</a></li>
         <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
         <li><a href="academies.html" class="hover:text-white transition-colors">PB Academy</a></li>
-        <li><a href="trips.html" class="hover:text-white transition-colors">Padel trips</a></li>
+        <li><a href="camps.html" class="hover:text-white transition-colors">Padel Camps</a></li>
         <li><a href="team.html" class="hover:text-white transition-colors">Coaches</a></li>
         <li><a href="partners.html" class="hover:text-white transition-colors">For clubs</a></li>
         <li><a href="${SHOP_LINK}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-white transition-colors">Shop${SOON_BADGE_HTML}</a></li>
@@ -91,8 +92,8 @@ const FOOTER_HTML = `
     <div>
       <div class="font-semibold text-sm mb-3 text-white/90">Our venues</div>
       <ul class="space-y-2 text-sm text-white/60">
-        <li>The Padel Project<br /><span class="text-white/40">Musaffah, Abu Dhabi</span></li>
-        <li class="pt-1">UAEJJ Fitness<br /><span class="text-white/40">MBZ &amp; Al Falah</span></li>
+        <li><a href="venues.html" class="hover:text-white transition-colors">The Padel Project</a><br /><span class="text-white/40">Musaffah, Abu Dhabi</span></li>
+        <li class="pt-1"><a href="venues.html" class="hover:text-white transition-colors">UAEJJ Fitness</a><br /><span class="text-white/40">Al Falah &amp; MBZ</span></li>
       </ul>
     </div>
     <div>
