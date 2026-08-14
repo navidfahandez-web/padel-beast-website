@@ -2,8 +2,8 @@
 
 const WHATSAPP_LINK = "https://wa.link/j1alk4";
 const INSTAGRAM_LINK = "https://instagram.com/thepadelbeast";
-const PHONE_DISPLAY = "+971 50 945 3562";
-const PHONE_LINK = "tel:+971509453562";
+const PHONE_DISPLAY = "+971 50 834 7098";
+const PHONE_LINK = "tel:+971508347098";
 const EMAIL = "thepadelbeast@gmail.com";
 const SHOP_LINK = "https://3kkiah-gw.myshopify.com";
 
@@ -20,7 +20,7 @@ const NAV_LINKS = [
   ["index.html", "Home"],
   ["about.html", "About"],
   ["services.html", "Services"],
-  ["academies.html", "Academies"],
+  ["academies.html", "PB Academy"],
   ["trips.html", "Trips"],
   ["team.html", "Team"],
   ["partners.html", "For Clubs"],
@@ -81,7 +81,7 @@ const FOOTER_HTML = `
       <ul class="space-y-2 text-sm text-white/60">
         <li><a href="about.html" class="hover:text-white transition-colors">About us</a></li>
         <li><a href="services.html" class="hover:text-white transition-colors">Services</a></li>
-        <li><a href="academies.html" class="hover:text-white transition-colors">Academies</a></li>
+        <li><a href="academies.html" class="hover:text-white transition-colors">PB Academy</a></li>
         <li><a href="trips.html" class="hover:text-white transition-colors">Padel trips</a></li>
         <li><a href="team.html" class="hover:text-white transition-colors">Coaches</a></li>
         <li><a href="partners.html" class="hover:text-white transition-colors">For clubs</a></li>
