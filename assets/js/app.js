@@ -114,11 +114,27 @@ const FOOTER_HTML = `
   </div>
 </footer>`;
 
+const WHATSAPP_FLOAT_HTML = `
+<div class="fixed bottom-5 right-5 z-50">
+  <span class="absolute inset-0 rounded-full bg-whatsapp animate-ping opacity-60"></span>
+  <a href="${WHATSAPP_LINK}" target="_blank" rel="noopener" aria-label="Chat with Padel Beast on WhatsApp"
+     class="relative z-10 flex items-center justify-center w-14 h-14 rounded-full bg-whatsapp text-white shadow-xl2 hover:scale-105 transition-transform">
+    <span class="text-2xl">${icon("whatsapp")}</span>
+  </a>
+</div>`;
+
 function mountChrome() {
   const navMount = document.getElementById("nav-mount");
   const footerMount = document.getElementById("footer-mount");
   if (navMount) navMount.innerHTML = NAV_HTML;
   if (footerMount) footerMount.innerHTML = FOOTER_HTML;
+
+  if (!document.getElementById("whatsapp-float")) {
+    const floatMount = document.createElement("div");
+    floatMount.id = "whatsapp-float";
+    floatMount.innerHTML = WHATSAPP_FLOAT_HTML;
+    document.body.appendChild(floatMount);
+  }
 
   const btn = document.getElementById("mobileMenuBtn");
   const menu = document.getElementById("mobileMenu");
