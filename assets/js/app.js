@@ -114,13 +114,19 @@ const FOOTER_HTML = `
   </div>
 </footer>`;
 
-const WHATSAPP_FLOAT_HTML = `
-<div class="fixed bottom-5 right-5 z-50">
-  <span class="absolute inset-0 rounded-full bg-whatsapp animate-ping opacity-60"></span>
-  <a href="${WHATSAPP_LINK}" target="_blank" rel="noopener" aria-label="Chat with Padel Beast on WhatsApp"
-     class="relative z-10 flex items-center justify-center w-14 h-14 rounded-full bg-whatsapp text-white shadow-xl2 hover:scale-105 transition-transform">
-    <span class="text-2xl">${icon("whatsapp")}</span>
+const SOCIAL_FLOAT_HTML = `
+<div class="fixed bottom-5 right-5 z-50 flex flex-col items-center gap-3">
+  <a href="${INSTAGRAM_LINK}" target="_blank" rel="noopener" aria-label="Follow Padel Beast on Instagram"
+     class="flex items-center justify-center w-12 h-12 rounded-full text-white shadow-xl2 hover:scale-105 transition-transform bg-gradient-to-br from-yellow-400 via-pink-500 to-purple-600">
+    <span class="text-xl">${icon("instagram")}</span>
   </a>
+  <div class="relative">
+    <span class="absolute inset-0 rounded-full bg-whatsapp animate-ping opacity-60"></span>
+    <a href="${WHATSAPP_LINK}" target="_blank" rel="noopener" aria-label="Chat with Padel Beast on WhatsApp"
+       class="relative z-10 flex items-center justify-center w-14 h-14 rounded-full bg-whatsapp text-white shadow-xl2 hover:scale-105 transition-transform">
+      <span class="text-2xl">${icon("whatsapp")}</span>
+    </a>
+  </div>
 </div>`;
 
 function mountChrome() {
@@ -129,10 +135,10 @@ function mountChrome() {
   if (navMount) navMount.innerHTML = NAV_HTML;
   if (footerMount) footerMount.innerHTML = FOOTER_HTML;
 
-  if (!document.getElementById("whatsapp-float")) {
+  if (!document.getElementById("social-float")) {
     const floatMount = document.createElement("div");
-    floatMount.id = "whatsapp-float";
-    floatMount.innerHTML = WHATSAPP_FLOAT_HTML;
+    floatMount.id = "social-float";
+    floatMount.innerHTML = SOCIAL_FLOAT_HTML;
     document.body.appendChild(floatMount);
   }
 
