@@ -5,9 +5,8 @@ const INSTAGRAM_LINK = "https://instagram.com/thepadelbeast";
 const PHONE_DISPLAY = "+971 50 834 7098";
 const PHONE_LINK = "tel:+971508347098";
 const EMAIL = "thepadelbeast@gmail.com";
-const SHOP_LINK = "https://3kkiah-gw.myshopify.com";
+const SHOP_LINK = "https://www.thepadelbeast.store";
 
-const SOON_BADGE_HTML = `<span class="text-[0.6rem] font-bold uppercase tracking-wide bg-red text-paper px-1.5 py-0.5 rounded-full leading-none">Soon</span>`;
 
 // The real Padel Beast logo, extracted from the brand PDF: maroon for light
 // (cream) backgrounds, white for dark ones, both transparent PNGs.
@@ -24,6 +23,7 @@ const NAV_LINKS = [
   ["venues.html", "Venues"],
   ["camps.html", "Camps"],
   ["team.html", "Team"],
+  ["future.html", "Our Future"],
   ["partners.html", "For Clubs"],
   ["contact.html", "Contact"],
 ];
@@ -45,10 +45,10 @@ const NAV_HTML = `
     <a href="index.html" class="flex items-center gap-3 shrink-0">
       ${logoHTML("maroon", "h-12")}
     </a>
-    <nav class="hidden lg:flex items-center gap-7 text-sm font-semibold">
+    <nav class="hidden lg:flex items-center gap-4 xl:gap-7 text-sm font-semibold">
       ${navLinkHTML(false)}
-      <a href="${SHOP_LINK}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 text-ink-soft hover:text-red transition-colors">
-        <span>Shop</span>${SOON_BADGE_HTML}
+      <a href="${SHOP_LINK}" target="_blank" rel="noopener" class="text-ink-soft hover:text-red transition-colors">
+        <span>Shop</span>
       </a>
     </nav>
     <div class="hidden lg:flex items-center gap-3">
@@ -61,7 +61,7 @@ const NAV_HTML = `
   <div id="mobileMenu" class="lg:hidden hidden border-t border-border bg-paper px-5 py-4 space-y-1">
     ${navLinkHTML(true)}
     <a href="${SHOP_LINK}" target="_blank" rel="noopener" class="flex items-center gap-2 py-2 font-semibold text-ink">
-      <span>Shop</span>${SOON_BADGE_HTML}
+      <span>Shop</span>
     </a>
     <a href="${WHATSAPP_LINK}" target="_blank" rel="noopener" class="btn btn-primary w-full mt-3">${icon("whatsapp")}<span>WhatsApp Us</span></a>
   </div>
@@ -85,8 +85,9 @@ const FOOTER_HTML = `
         <li><a href="academies.html" class="hover:text-white transition-colors">PB Academy</a></li>
         <li><a href="camps.html" class="hover:text-white transition-colors">Padel Camps</a></li>
         <li><a href="team.html" class="hover:text-white transition-colors">Coaches</a></li>
+        <li><a href="future.html" class="hover:text-white transition-colors">Our Future</a></li>
         <li><a href="partners.html" class="hover:text-white transition-colors">For clubs</a></li>
-        <li><a href="${SHOP_LINK}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-white transition-colors">Shop${SOON_BADGE_HTML}</a></li>
+        <li><a href="${SHOP_LINK}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 hover:text-white transition-colors">Shop</a></li>
       </ul>
     </div>
     <div>
