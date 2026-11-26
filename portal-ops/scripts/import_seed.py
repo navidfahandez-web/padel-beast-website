@@ -2,7 +2,8 @@
 """Load data into the Coach Portal: the old Player Reports export, or a backup file downloaded from the portal.
 No packages needed (this Mac has no Node). Prints counts only, never names or notes.
 
-Setup (on your own computer, never committed):
+Easiest: use `sh scripts/run_import.sh --skip-samples`, which asks for the setup key silently and runs this script.
+To run this script directly instead (on your own computer, never committed):
   1. Put the setup key (the same value as PORTAL_SETUP_KEY in Netlify) and the site address in portal-ops/.env:
        PORTAL_URL=https://thepadelbeast.com            (or the Netlify preview address while testing)
        PORTAL_SETUP_KEY=the-long-secret-you-chose-in-netlify

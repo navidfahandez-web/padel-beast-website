@@ -13,7 +13,8 @@ You need to do **one thing in Netlify** (add one secret), then create your own a
 | `../netlify/functions/portal.mjs` and `../netlify/lib/portal-core.mjs` | The server: login, security rules, saving data |
 | `../coaches/` | The portal screens |
 | `content/` | Your methodology and session plans (imported into the portal, never public) |
-| `scripts/import_seed.py` | One-off import of the current players and reports, and restore from a backup |
+| `scripts/run_import.sh` | Runs the import/restore and asks for the setup key silently (use this one) |
+| `scripts/import_seed.py` | The import itself: current players and reports, or restore from a backup |
 | `scripts/dev_server.py` | Runs the portal on your own computer in demo mode |
 | `tests/` | Automatic checks of the server rules (`core-test.html`) and a full simulator (`sim.html`) |
 | `SECURITY.md` | The security rules the portal follows |
@@ -50,24 +51,19 @@ This page stops working the moment the first admin exists.
 
 ## 4. Import the current data (on your computer)
 
-1. Create a text file `portal-ops/.env` with two lines:
-
-```
-PORTAL_URL=https://coach-portal--yoursite.netlify.app
-PORTAL_SETUP_KEY=the-same-secret-as-in-netlify
-```
-
-2. Put `export-2026-11-25.json` in `portal-ops/seed-data/`. If coaches added reports in the old tool after 25 Nov, ask for a fresh export first.
-3. In Terminal:
+1. Put `export-2026-11-25.json` in `portal-ops/seed-data/`. If coaches added reports in the old tool after 25 Nov, ask for a fresh export first.
+2. In Terminal:
 
 ```bash
 cd "portal-ops"
-python3 scripts/import_seed.py --skip-samples
+sh scripts/run_import.sh --skip-samples
 ```
 
-It prints counts only (never names), and is safe to run twice. `--skip-samples` leaves out the sample lessons and the sample adult player.
+It asks for your setup key **silently** (nothing shows while you paste, and the key is never saved to a file), then imports. It prints counts only (never names), and is safe to run twice. `--skip-samples` leaves out the sample lessons and the sample adult player.
 
-4. Afterwards **delete `seed-data/` and `.env`**. Neither is ever committed.
+3. Afterwards **delete `seed-data/`**. It is never committed.
+
+(Preview instead of the live site? Run it as `PORTAL_URL=https://your-preview-address sh scripts/run_import.sh --skip-samples`.)
 
 ## 5. Invite the coaches
 
@@ -83,7 +79,6 @@ The coach opens it and **chooses their own password**. The link works once and e
 
 1. Check the preview with real logins (see the checklist below).
 2. Merge `coach-portal` into `main` (Claude can do this when you say so). Netlify deploys the live site by itself.
-3. Add `PORTAL_URL=https://thepadelbeast.com` to your local `.env` only if you need to import again.
 
 ### Checklist before going live
 
@@ -100,7 +95,7 @@ The coach opens it and **chooses their own password**. The link works once and e
 Netlify Blobs has **no automatic backups**. So the Coaches screen has a **Download backup** button: one file with every player, lesson, report and objective.
 
 - Do it **every Sunday**, or before anything risky. Keep the file private (it contains children's information): not by email, not on a shared drive.
-- To restore: put the file in `portal-ops/` and run `python3 scripts/import_seed.py --backup the-file.json` (needs `.env` as in step 4). Coaches aren't in a backup: invite them again if the portal was empty.
+- To restore: put the file in `portal-ops/` and run `sh scripts/run_import.sh --backup the-file.json` (it asks for the setup key silently, as in step 4). Coaches aren't in a backup: invite them again if the portal was empty.
 
 ## Parents' consent (not code)
 
