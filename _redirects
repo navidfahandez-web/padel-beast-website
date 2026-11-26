@@ -1,0 +1,4 @@
+# Coach portal: single-page app, serve the shell for every /coaches/... path (real files still win)
+/coaches/*   /coaches/index.html   200
+# Ops material (schema, content, scripts) lives in the repo but is never served
+/portal-ops/*   /404.html   404!

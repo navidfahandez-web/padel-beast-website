@@ -1,0 +1,530 @@
+{
+ "_about": "Padel Beast coaching method content used by the coach tool. Source: Level Books L1–L4 (Navid), Junior Program 2026-27 sheet. Edit here, not in code.",
+ "levels": {
+  "1": {
+   "name": "L1 Beginner",
+   "nextLevel": "L2",
+   "focus": "Get to the net",
+   "nextLevelTargets": {
+    "errors": 4.8,
+    "optimal": 25,
+    "back": 50,
+    "rally": 5.5
+   },
+   "milestones": [
+    "Back-glass exit: 6/10 coach feeds returned into court",
+    "Lob to the Box: 5/10 lobs in the last 2 m",
+    "Fed volleys: 14/20 into the opponent's half",
+    "Serve: 8/10 into the box",
+    "Match data: too far back ≤ 50%",
+    "Match data: optimal position ≥ 25%",
+    "Match data: errors ≤ 4.8 per 100",
+    "Match data: avg rally ≥ 5.5 shots",
+    "Coach: steps in after return, moves with partner, calls \"mine / yours\""
+   ],
+   "areasToImprove": [
+    "Living on the baseline",
+    "Late to the net",
+    "Middle gap open",
+    "Facing the glass after a lob",
+    "Balls too long or wide",
+    "Lobs with no target",
+    "Feeding the net player",
+    "Hitting hard from the back",
+    "Hitting before the glass",
+    "Continental grip",
+    "Short block volley",
+    "Bandeja for control, not power",
+    "Backhand consistency",
+    "Warm-up habit",
+    "Shoulder care on overheads"
+   ],
+   "keyDrills": [
+    "The Rope",
+    "Glass Ladder",
+    "Lob to the Box",
+    "Wall of 50",
+    "King of the Net"
+   ]
+  },
+  "2": {
+   "name": "L2 Intermediate",
+   "nextLevel": "L3",
+   "focus": "Stable volleys, safe bandeja",
+   "nextLevelTargets": {
+    "errors": 4.4,
+    "optimal": 35,
+    "back": 40,
+    "rally": 6.5
+   },
+   "milestones": [
+    "Feet Zone: 12/20 low volleys in the strip",
+    "Bandeja Corner: 6/10 in the box, none smashable",
+    "Lob Recovery: 6/10 back in position",
+    "Return: 6/10 low past the service line",
+    "Match data: optimal position ≥ 35%",
+    "Match data: too far back ≤ 40%, too close ≤ 12%",
+    "Match data: errors ≤ 4.4 per 100",
+    "Match data: avg rally ≥ 6.5 shots",
+    "Coach: lobs when off balance, bandeja on non-smash balls, closes the net after own lob"
+   ],
+   "areasToImprove": [
+    "Too close to the net (stay 2–3 m)",
+    "Splitting on the lob",
+    "Stopping in no-man's-land",
+    "Volleys to the glass, not the feet",
+    "Bandeja sits up (aim side glass)",
+    "Volleys into the net",
+    "Overpowering the bajada",
+    "Smash vs bandeja choice",
+    "No reset lob",
+    "Volley contact behind the body",
+    "Full-swing bandeja",
+    "Backhand drive",
+    "Shoulder and core work",
+    "Calf and Achilles care"
+   ],
+   "keyDrills": [
+    "Feet Zone",
+    "Bandeja Corner",
+    "Lob Recovery",
+    "Freeze",
+    "No-Bajada games"
+   ]
+  },
+  "3": {
+   "name": "L3 Upper-Intermediate",
+   "nextLevel": "L4",
+   "focus": "Backhand, transition choices",
+   "nextLevelTargets": {
+    "errors": 3.8,
+    "optimal": 38,
+    "back": 39,
+    "rally": 7.5
+   },
+   "milestones": [
+    "Backhand Ladder: 7/10 crosscourt into the target half",
+    "Overheads: 7/10 bandeja/víbora in the corner box",
+    "Chiquita: 6/10 at the net player's feet",
+    "20-Ball Challenge: 1 of 3 attempts",
+    "Match data: errors ≤ 3.8 per 100",
+    "Match data: avg rally ≥ 7.5 shots",
+    "Match data: optimal position ≥ 38%",
+    "Match data: team sync ≥ 74%",
+    "Coach: no attacks from transition, changes target, lob/chiquita to regain the net"
+   ],
+   "areasToImprove": [
+    "Defending too flat and deep",
+    "Slow recovery after the lob",
+    "Backhand into the net",
+    "Short bandeja / víbora",
+    "Predictable targeting",
+    "Attacking from no-man's-land",
+    "Trying to win from the back",
+    "Impatience in long rallies",
+    "Backhand-side glass exits",
+    "Víbora spin",
+    "Chiquita missing",
+    "Conditioning and recovery",
+    "Elbow and wrist load"
+   ],
+   "keyDrills": [
+    "Backhand Ladder",
+    "No Smash Given",
+    "Chiquita and Close",
+    "Transition Traffic Light",
+    "20-Ball Challenge"
+   ]
+  },
+  "4": {
+   "name": "L4 Advanced",
+   "nextLevel": "Competition",
+   "focus": "Finish at the net",
+   "nextLevelTargets": {
+    "errors": 3.2,
+    "optimal": 42,
+    "back": 38,
+    "rally": 8
+   },
+   "milestones": [
+    "Smash Factory: 7/10 right shot called and executed",
+    "Por tres: 4/10 out over the side wall",
+    "Angled volleys: 7/10 to the side-glass target",
+    "Pressure Points: 5 of 10 golden points won",
+    "Match data: errors ≤ 3.2 per 100",
+    "Match data: errors into the net ≤ 50%",
+    "Match data: optimal position ≥ 42%",
+    "Match data: smash ≥ 3% of shots, ≥ 5 winners per error",
+    "Coach: has a game plan and changes it, right overhead, leads communication",
+    "Tournament: play one local amateur tournament"
+   ],
+   "areasToImprove": [
+    "Positioning plateau (too far back)",
+    "Side gaps after crosscourt",
+    "Pace into the net (more margin)",
+    "Few angles off the side glass",
+    "Middle without pressure",
+    "Not creating the smash",
+    "Wrong risk (rulo)",
+    "No game plan",
+    "Finishing overheads (por tres, kick)",
+    "Backhand finishing",
+    "Landing mechanics",
+    "Season plan and rest weeks"
+   ],
+   "keyDrills": [
+    "Smash Factory",
+    "The Squeeze",
+    "Side-Gap Shadow",
+    "Margin Line",
+    "Pressure Points"
+   ]
+  }
+ },
+ "pillars": [
+  {
+   "key": "position",
+   "label": "Position"
+  },
+  {
+   "key": "placement",
+   "label": "Placement"
+  },
+  {
+   "key": "decision",
+   "label": "Decision"
+  },
+  {
+   "key": "technique",
+   "label": "Technique"
+  },
+  {
+   "key": "durability",
+   "label": "Durability"
+  }
+ ],
+ "glasswallMetrics": [
+  {
+   "key": "errors",
+   "label": "Errors per 100 shots",
+   "better": "low"
+  },
+  {
+   "key": "optimal",
+   "label": "Optimal position %",
+   "better": "high"
+  },
+  {
+   "key": "back",
+   "label": "Too far back %",
+   "better": "low"
+  },
+  {
+   "key": "rally",
+   "label": "Avg rally (shots)",
+   "better": "high"
+  }
+ ],
+ "objectiveKinds": [
+  "Technique",
+  "Match data",
+  "Fitness & durability",
+  "Level test",
+  "Tournament"
+ ],
+ "objectiveStatuses": {
+  "default": [
+   "Open",
+   "In progress",
+   "Achieved",
+   "Missed"
+  ],
+  "Tournament": [
+   "Planned",
+   "Registered",
+   "Played",
+   "Withdrew"
+  ]
+ },
+ "tournamentResults": [
+  "—",
+  "Winner",
+  "Final",
+  "Semi-final",
+  "Quarter-final",
+  "Round of 16",
+  "Group stage"
+ ],
+ "juniorProgramme": {
+  "period": "Oct 2026 – Mar 2027",
+  "groups": {
+   "A": "Group A · 8–10 yrs",
+   "B": "Group B · 12–13 yrs",
+   "C": "Group C · 15–16 yrs"
+  },
+  "modules": [
+   {
+    "index": 0,
+    "short": "Fundamentals",
+    "description": "Oct · Fundamentals: grip, ready position, forehand & backhand, footwork, first serve",
+    "sessions": [
+     {
+      "training": "T1",
+      "focus": "Assessment & intro to padel rules"
+     },
+     {
+      "training": "T2",
+      "focus": "Grip & ready position"
+     },
+     {
+      "training": "T3",
+      "focus": "Forehand groundstroke"
+     },
+     {
+      "training": "T4",
+      "focus": "Backhand groundstroke"
+     },
+     {
+      "training": "T5",
+      "focus": "Footwork & split step"
+     },
+     {
+      "training": "T6",
+      "focus": "Consistency rallies (FH/BH)"
+     },
+     {
+      "training": "T7",
+      "focus": "Introduction to the serve"
+     },
+     {
+      "training": "T8",
+      "focus": "Month review & mini-games"
+     }
+    ]
+   },
+   {
+    "index": 1,
+    "short": "Net Play",
+    "description": "Nov · Net Play: volleys, net positioning, transition to the net, first lobs",
+    "sessions": [
+     {
+      "training": "T1",
+      "focus": "Forehand volley basics"
+     },
+     {
+      "training": "T2",
+      "focus": "Backhand volley basics"
+     },
+     {
+      "training": "T3",
+      "focus": "Net positioning & ready at the net"
+     },
+     {
+      "training": "T4",
+      "focus": "Volley depth & direction"
+     },
+     {
+      "training": "T5",
+      "focus": "Transition: baseline to net"
+     },
+     {
+      "training": "T6",
+      "focus": "Introduction to the lob"
+     },
+     {
+      "training": "T7",
+      "focus": "Net vs baseline games"
+     },
+     {
+      "training": "T8",
+      "focus": "Month review & mini-matches"
+     }
+    ]
+   },
+   {
+    "index": 2,
+    "short": "Wall Play",
+    "description": "Dec · Wall Play: back wall, side wall, double wall, defending from the glass",
+    "sessions": [
+     {
+      "training": "T1",
+      "focus": "Back wall – forehand"
+     },
+     {
+      "training": "T2",
+      "focus": "Back wall – backhand"
+     },
+     {
+      "training": "T3",
+      "focus": "Side + back wall (double wall)"
+     },
+     {
+      "training": "T4",
+      "focus": "Wall exits in defence"
+     },
+     {
+      "training": "T5",
+      "focus": "Defensive lob from the wall"
+     },
+     {
+      "training": "T6",
+      "focus": "Reading the bounce"
+     },
+     {
+      "training": "T7",
+      "focus": "Wall play in live rallies"
+     },
+     {
+      "training": "T8",
+      "focus": "Mid-program assessment"
+     }
+    ]
+   },
+   {
+    "index": 3,
+    "short": "Overheads",
+    "description": "Jan · Overheads: overhead footwork, bandeja, víbora, smash, defending overheads",
+    "sessions": [
+     {
+      "training": "T1",
+      "focus": "Overhead footwork"
+     },
+     {
+      "training": "T2",
+      "focus": "Bandeja technique"
+     },
+     {
+      "training": "T3",
+      "focus": "Bandeja direction & depth"
+     },
+     {
+      "training": "T4",
+      "focus": "Introduction to the víbora"
+     },
+     {
+      "training": "T5",
+      "focus": "Flat smash"
+     },
+     {
+      "training": "T6",
+      "focus": "Smash to the fence / x3 intro"
+     },
+     {
+      "training": "T7",
+      "focus": "Defending overheads"
+     },
+     {
+      "training": "T8",
+      "focus": "Month review & games"
+     }
+    ]
+   },
+   {
+    "index": 4,
+    "short": "Tactics",
+    "description": "Feb · Serve, Return & Tactics: serve placement, return, pair positioning, communication, point building",
+    "sessions": [
+     {
+      "training": "T1",
+      "focus": "Serve consistency & placement"
+     },
+     {
+      "training": "T2",
+      "focus": "Return of serve"
+     },
+     {
+      "training": "T3",
+      "focus": "Court positioning as a pair"
+     },
+     {
+      "training": "T4",
+      "focus": "Communication & partner movement"
+     },
+     {
+      "training": "T5",
+      "focus": "Attack vs defence patterns"
+     },
+     {
+      "training": "T6",
+      "focus": "Chiquita / low ball to the feet"
+     },
+     {
+      "training": "T7",
+      "focus": "Point construction"
+     },
+     {
+      "training": "T8",
+      "focus": "Tactical match play"
+     }
+    ]
+   },
+   {
+    "index": 5,
+    "short": "Match Play",
+    "description": "Mar · Match Play & Final Assessment: scoring, pressure points, mini-tournaments, final evaluation",
+    "sessions": [
+     {
+      "training": "T1",
+      "focus": "Match simulation"
+     },
+     {
+      "training": "T2",
+      "focus": "Scoring & match rules"
+     },
+     {
+      "training": "T3",
+      "focus": "Pressure-point drills"
+     },
+     {
+      "training": "T4",
+      "focus": "Mini-tournament – round 1"
+     },
+     {
+      "training": "T5",
+      "focus": "Weak-spot clinic"
+     },
+     {
+      "training": "T6",
+      "focus": "Mini-tournament – round 2"
+     },
+     {
+      "training": "T7",
+      "focus": "Final assessment"
+     },
+     {
+      "training": "T8",
+      "focus": "Graduation tournament & awards"
+     }
+    ]
+   }
+  ]
+ },
+ "lessonGroups": {
+  "A": "Group A · 8–10 yrs",
+  "B": "Group B · 12–13 yrs",
+  "C": "Group C · 15–16 yrs",
+  "mixed": "Mixed juniors",
+  "adult": "Adults / private"
+ },
+ "ratingScale": {
+  "1": "Needs a lot of work",
+  "2": "Developing",
+  "3": "Good",
+  "4": "Very good",
+  "5": "Excellent"
+ },
+ "quickComments": [
+  "Great effort",
+  "Good focus",
+  "Listened well",
+  "Improved since last lesson",
+  "Moved well with partner",
+  "Good at the net",
+  "Needs more confidence",
+  "Lost concentration",
+  "Too far back",
+  "Volleys into the net",
+  "Rushed the shot",
+  "Ready for the next step"
+ ]
+}

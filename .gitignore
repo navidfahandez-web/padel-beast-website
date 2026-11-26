@@ -1,0 +1,6 @@
+.env
+.env.*
+node_modules/
+seed-data/
+padel-beast-coach-portal/
+.DS_Store

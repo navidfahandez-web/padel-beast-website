@@ -110,7 +110,7 @@ const FOOTER_HTML = `
   <div class="border-t border-white/10">
     <div class="max-w-7xl mx-auto px-5 md:px-8 py-5 flex flex-col sm:flex-row justify-between items-center gap-2 text-xs text-white/40">
       <span>&copy; 2026 Padel Beast. All rights reserved.</span>
-      <span>Abu Dhabi, United Arab Emirates</span>
+      <span>Abu Dhabi, United Arab Emirates &middot; <a href="/coaches/login" rel="nofollow" class="hover:text-white transition-colors">Coach login</a></span>
     </div>
   </div>
 </footer>`;

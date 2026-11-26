@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Coach Portal · Padel Beast</title>
+<link rel="icon" href="/assets/img/logo-maroon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@125,700;125,800&family=Barlow:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/coaches/css/portal.css">
+</head>
+<body>
+
+<!-- ───────── Login / forgot / set password ───────── -->
+<div id="screen-login" class="auth" hidden>
+  <div class="auth-card">
+    <img class="auth-logo" src="/assets/img/logo-white.png" alt="Padel Beast">
+    <h1>Coach <span>Portal</span></h1>
+
+    <section id="pane-login">
+      <form id="loginForm">
+        <label>Email<input type="email" name="email" required autocomplete="username" inputmode="email"></label>
+        <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
+        <button class="btn ball" type="submit" style="margin-top:6px">Log in</button>
+        <p class="msg" role="status"></p>
+        <button class="linkbtn" type="button" data-act="auth-forgot">Forgot password?</button>
+      </form>
+      <p class="fine">Invite only. If you're a Padel Beast coach and can't get in, ask Navid.</p>
+    </section>
+
+    <section id="pane-forgot" hidden>
+      <form id="forgotForm">
+        <p>Enter your email and we'll send you a link to choose a new password.</p>
+        <label>Email<input type="email" name="email" required autocomplete="username" inputmode="email"></label>
+        <button class="btn ball" type="submit" style="margin-top:6px">Send reset link</button>
+        <p class="msg" role="status"></p>
+        <button class="linkbtn" type="button" data-act="auth-login">Back to log in</button>
+      </form>
+    </section>
+
+    <section id="pane-setpw" hidden>
+      <form id="pwForm">
+        <p>Welcome. Choose your own password (at least 10 characters). Only you will know it.</p>
+        <label>New password<input type="password" name="pw" required minlength="10" autocomplete="new-password"></label>
+        <label>Repeat it<input type="password" name="pw2" required minlength="10" autocomplete="new-password"></label>
+        <button class="btn ball" type="submit" style="margin-top:6px">Save password and continue</button>
+        <p class="msg" role="status"></p>
+      </form>
+    </section>
+
+    <section id="pane-unconfigured" hidden>
+      <p>The coach portal isn't switched on yet.</p>
+      <p class="msg"></p>
+    </section>
+  </div>
+</div>
+
+<!-- ───────── The portal ───────── -->
+<div id="app" hidden>
+<header><div class="top">
+  <h1><img class="logo" src="/assets/img/logo-white.png" alt="Padel Beast"> <span>Coach Portal</span></h1>
+  <nav class="views" aria-label="View">
+    <button type="button" data-act="view" data-v="players" aria-pressed="true">Players</button>
+    <button type="button" data-act="view" data-v="lessons" aria-pressed="false">Lesson reports</button>
+    <button type="button" data-act="view" data-v="team" id="nav-team" aria-pressed="false" hidden>Coaches</button>
+  </nav>
+  <div class="who">
+    <span class="whoname" id="whoName"></span>
+    <button class="btn ball" id="addPlayer" type="button">+ Add player</button>
+    <button class="btn sm outline" type="button" data-act="logout">Log out</button>
+  </div>
+</div></header>
+<div class="banner" id="banner" hidden></div>
+<main class="wrap">
+  <aside class="rail">
+    <input id="search" type="search" placeholder="Search players" aria-label="Search players" autocomplete="off">
+    <div class="filters">
+      <select id="fLevel" aria-label="Filter by level"><option value="">All levels</option><option value="1">L1</option><option value="2">L2</option><option value="3">L3</option><option value="4">L4</option></select>
+      <select id="fCoach" aria-label="Filter by coach"><option value="">All coaches</option></select>
+    </div>
+    <select id="fGroup" aria-label="Filter by group"><option value="">All players</option><option value="jr">All juniors</option><option value="A">Group A · 8–10 yrs</option><option value="B">Group B · 12–13 yrs</option><option value="C">Group C · 15–16 yrs</option></select>
+    <div class="roster" id="roster"></div>
+  </aside>
+  <section>
+    <div class="mobsel"><select id="mobSel" aria-label="Select player"></select></div>
+    <div id="detail"></div>
+  </section>
+</main>
+</div>
+
+<dialog id="dlg"><form id="pform" method="dialog">
+  <h3 id="dlgTitle">Add player</h3>
+  <div class="form">
+    <label class="full">Full name<input name="name" required autocomplete="off"></label>
+    <label>Level<select name="level"><option value="1">L1 Beginner</option><option value="2">L2 Intermediate</option><option value="3">L3 Upper-Intermediate</option><option value="4">L4 Advanced</option></select></label>
+    <label>Programme<select name="program"><option>Private VIP</option><option>Progress Plan</option><option>Group academy</option><option>Junior programme</option><option>Match Report client</option></select></label>
+    <label>Main coach (optional)<input name="coach" autocomplete="off"></label>
+    <label>Court side<select name="side"><option>Drive (right)</option><option>Revés (left)</option><option>Both</option></select></label>
+    <label>Dominant hand<select name="hand"><option>Right</option><option>Left</option></select></label>
+    <label>Started with us<input type="date" name="start"></label>
+    <label class="full">Player's main goal<input name="goal" placeholder="e.g. Reach L3 and play the spring club tournament" autocomplete="off"></label>
+    <label class="jr">Junior group<select name="group"><option value="">None</option><option value="A">Group A · 8–10 yrs</option><option value="B">Group B · 12–13 yrs</option><option value="C">Group C · 15–16 yrs</option></select></label>
+    <label class="jr">Date of birth<input type="date" name="dob"></label>
+    <label class="jr">School<input name="school" autocomplete="off"></label>
+    <label class="jr">Parent / guardian<input name="parent" autocomplete="off"></label>
+    <label class="jr">Parent phone<input name="phone" inputmode="tel" autocomplete="off"></label>
+    <label class="jr">Kit size (shirt / shoes)<input name="kit" autocomplete="off"></label>
+    <label class="full">Injuries, medical notes or allergies<input name="health" placeholder="e.g. Old right-shoulder strain, no full smashes yet" autocomplete="off"></label>
+  </div>
+  <div class="line" style="margin-top:18px"><span></span><span style="display:flex;gap:8px"><button class="btn" value="cancel" formnovalidate>Cancel</button><button class="btn pri" id="pSave" value="save">Save player</button></span></div>
+</form></dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="/coaches/vendor/supabase.js"></script>
+<script type="module" src="/coaches/js/main.js"></script>
+</body>
+</html>

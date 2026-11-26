@@ -1,0 +1,1592 @@
+{
+ "_about": "48 junior session plans (module index 0–5 = Oct–Mar; T1–T8). id M2T3 = module index 1, T3. 60 min each.",
+ "plans": [
+  {
+   "id": "M1T1",
+   "module": 0,
+   "training": "T1",
+   "objectives": "Know the court, the walls and basic scoring; coach notes a starting level for each player",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Court tour and rules quiz",
+     "min": "10",
+     "obj": "Name the service box, the walls and when a ball is out"
+    },
+    {
+     "name": "Rally assessment",
+     "min": "15",
+     "obj": "Coach rates forehand, backhand, volley and movement 1–5"
+    },
+    {
+     "name": "Serve and return check",
+     "min": "10",
+     "obj": "Underarm serve, bounce first, hit below the waist"
+    },
+    {
+     "name": "First-to-5 mini-games",
+     "min": "15",
+     "obj": "Real scoring; coach watches attitude and effort"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M1T2",
+   "module": 0,
+   "training": "T2",
+   "objectives": "Continental grip on every shot; ready position between shots",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Grip check game",
+     "min": "10",
+     "obj": "On 'grip!' everyone shows a continental grip"
+    },
+    {
+     "name": "Ready position freeze",
+     "min": "10",
+     "obj": "Knees bent, racket up in front of the body"
+    },
+    {
+     "name": "Hand-fed bounce and hit",
+     "min": "15",
+     "obj": "10 balls in a row with the continental grip"
+    },
+    {
+     "name": "Grip police mini-game",
+     "min": "15",
+     "obj": "Point lost if the grip changes"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M1T3",
+   "module": 0,
+   "training": "T3",
+   "objectives": "Side-on, short swing, contact in front, ball over the net through the middle",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Shadow forehand",
+     "min": "10",
+     "obj": "Turn side-on, short backswing, finish to the target"
+    },
+    {
+     "name": "Fed forehands to target",
+     "min": "15",
+     "obj": "7 of 10 past the service line"
+    },
+    {
+     "name": "Crosscourt forehand rally in pairs",
+     "min": "10",
+     "obj": "10-ball rally"
+    },
+    {
+     "name": "Forehand-only game",
+     "min": "15",
+     "obj": "Points only with forehands"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M1T4",
+   "module": 0,
+   "training": "T4",
+   "objectives": "Side-on backhand with a short swing; ball over the net through the middle",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Shadow backhand",
+     "min": "10",
+     "obj": "Shoulder turn, racket back early"
+    },
+    {
+     "name": "Fed backhands to target",
+     "min": "15",
+     "obj": "6 of 10 past the service line"
+    },
+    {
+     "name": "Crosscourt backhand rally in pairs",
+     "min": "10",
+     "obj": "8-ball rally"
+    },
+    {
+     "name": "Backhand-only game",
+     "min": "15",
+     "obj": "Points only with backhands"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M1T5",
+   "module": 0,
+   "training": "T5",
+   "objectives": "Split step on every opponent hit; small steps to the ball",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Agility ladder",
+     "min": "10",
+     "obj": "Fast feet, land balanced"
+    },
+    {
+     "name": "Split-step reaction game",
+     "min": "10",
+     "obj": "Split as the coach hits, move to the side called"
+    },
+    {
+     "name": "Two-ball feed: move and hit",
+     "min": "15",
+     "obj": "Recover to the middle after each ball"
+    },
+    {
+     "name": "Footwork relay race",
+     "min": "15",
+     "obj": "Fastest team with clean split steps"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M1T6",
+   "module": 0,
+   "training": "T6",
+   "objectives": "Keep the ball in play: 10-ball rallies",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Mini-court rally",
+     "min": "10",
+     "obj": "Rally inside the service boxes"
+    },
+    {
+     "name": "Crosscourt forehand rally",
+     "min": "12",
+     "obj": "10 in a row"
+    },
+    {
+     "name": "Crosscourt backhand rally",
+     "min": "12",
+     "obj": "8 in a row"
+    },
+    {
+     "name": "Rally record challenge",
+     "min": "16",
+     "obj": "Beat the group's best rally"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M1T7",
+   "module": 0,
+   "training": "T7",
+   "objectives": "Legal underarm serve: bounce behind the line, hit below the waist, into the diagonal box",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Serve rules demo",
+     "min": "5",
+     "obj": "Where to stand, bounce, contact below the waist"
+    },
+    {
+     "name": "Drop-and-hit serves",
+     "min": "15",
+     "obj": "8 of 10 in the box"
+    },
+    {
+     "name": "Serve to targets",
+     "min": "15",
+     "obj": "Hit the cone in the box 3 of 10"
+    },
+    {
+     "name": "Serve-and-play game",
+     "min": "15",
+     "obj": "Every point starts with a legal serve"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M1T8",
+   "module": 0,
+   "training": "T8",
+   "objectives": "Check October skills; tick Module 1 for players who meet them",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Skills stations",
+     "min": "20",
+     "obj": "Forehand, backhand, serve, split step: coach scores each 1–5"
+    },
+    {
+     "name": "Rally challenge",
+     "min": "10",
+     "obj": "10-ball rally in pairs"
+    },
+    {
+     "name": "Doubles mini-tournament",
+     "min": "15",
+     "obj": "Real scoring"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M2T1",
+   "module": 1,
+   "training": "T1",
+   "objectives": "Short block forehand volley, contact in front, continental grip",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Catch-the-ball volley",
+     "min": "5",
+     "obj": "Catch the ball in front of the body with the hand"
+    },
+    {
+     "name": "Fed forehand volleys",
+     "min": "15",
+     "obj": "No swing, 7 of 10 over the net"
+    },
+    {
+     "name": "Volley-volley in pairs",
+     "min": "15",
+     "obj": "10 in a row"
+    },
+    {
+     "name": "King of the Net mini-game",
+     "min": "15",
+     "obj": "Points count double with both players at the net"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M2T2",
+   "module": 1,
+   "training": "T2",
+   "objectives": "Short block backhand volley, contact in front, open racket face on low balls",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Shadow backhand volley",
+     "min": "5",
+     "obj": "Racket in front, short block"
+    },
+    {
+     "name": "Fed backhand volleys",
+     "min": "15",
+     "obj": "6 of 10 over the net"
+    },
+    {
+     "name": "Mixed forehand/backhand volleys",
+     "min": "15",
+     "obj": "Coach feeds both sides, 12 of 20"
+    },
+    {
+     "name": "Volley game",
+     "min": "15",
+     "obj": "Points only with volleys"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M2T3",
+   "module": 1,
+   "training": "T3",
+   "objectives": "Stand 2–3 m from the net, racket up, move together with your partner",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Racket-up ready position",
+     "min": "10",
+     "obj": "Racket head above the hands, in front of the body"
+    },
+    {
+     "name": "The Rope (pairs)",
+     "min": "15",
+     "obj": "Move forward and back together without the rope going slack"
+    },
+    {
+     "name": "Freeze game",
+     "min": "15",
+     "obj": "On 'freeze': both 2–3 m from the net, middle closed"
+    },
+    {
+     "name": "King of the Net mini-game",
+     "min": "10",
+     "obj": "Points count double with both players at the net"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M2T4",
+   "module": 1,
+   "training": "T4",
+   "objectives": "Volley deep or to the middle, not into the net or out",
+   "exercises": [
+    {
+     "name": "Volley-volley in pairs",
+     "min": "10",
+     "obj": "Short block, no swing"
+    },
+    {
+     "name": "Forehand volley to the cones",
+     "min": "12",
+     "obj": "6 of 10 into the deep zone"
+    },
+    {
+     "name": "Backhand volley to the cones",
+     "min": "12",
+     "obj": "5 of 10 into the deep zone"
+    },
+    {
+     "name": "Middle-target game",
+     "min": "13",
+     "obj": "Volley to the middle between the two opponents"
+    },
+    {
+     "name": "Cooperative rally challenge",
+     "min": "13",
+     "obj": "Group rally of 10 volleys"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M2T5",
+   "module": 1,
+   "training": "T5",
+   "objectives": "Move from the back to the net together; split step before the volley",
+   "exercises": [
+    {
+     "name": "Agility ladder and split steps",
+     "min": "10",
+     "obj": "Fast feet, land balanced"
+    },
+    {
+     "name": "Groundstroke, run in, volley",
+     "min": "15",
+     "obj": "Split step before the volley"
+    },
+    {
+     "name": "Pair transition with the Rope",
+     "min": "10",
+     "obj": "Move forward together"
+    },
+    {
+     "name": "Serve and walk in",
+     "min": "10",
+     "obj": "After every serve, walk to the net"
+    },
+    {
+     "name": "2v2: score only from the net",
+     "min": "15",
+     "obj": "Both players at the net to win the point"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M2T6",
+   "module": 1,
+   "training": "T6",
+   "objectives": "Know when to lob; high and deep lob landing in the last 2 m",
+   "exercises": [
+    {
+     "name": "Baseline rally warm-up",
+     "min": "10",
+     "obj": "Keep the ball in for 10 shots"
+    },
+    {
+     "name": "Lob technique: open face, low to high",
+     "min": "10",
+     "obj": "Ball goes above the coach's racket"
+    },
+    {
+     "name": "Lob to the Box",
+     "min": "15",
+     "obj": "Land in the last 2 m, 5 of 10"
+    },
+    {
+     "name": "Lob off the back glass",
+     "min": "10",
+     "obj": "Let it come off the glass, then lob"
+    },
+    {
+     "name": "Lob v volley game",
+     "min": "15",
+     "obj": "Lob over the net players, then run in"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M2T7",
+   "module": 1,
+   "training": "T7",
+   "objectives": "Put Net Play together: lob to win the net, volley low to the middle",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Volley to the middle",
+     "min": "10",
+     "obj": "Low volley between the two opponents"
+    },
+    {
+     "name": "Net v baseline, 5-point rotations",
+     "min": "20",
+     "obj": "Back pair: lob to win the net"
+    },
+    {
+     "name": "Lob and close",
+     "min": "10",
+     "obj": "After a good lob, both run to the net"
+    },
+    {
+     "name": "Mini-match tie-break",
+     "min": "10",
+     "obj": "Use everything from the month"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M2T8",
+   "module": 1,
+   "training": "T8",
+   "objectives": "Check Net Play skills; tick Module 2 for players who meet them",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Volley test",
+     "min": "15",
+     "obj": "Fed forehand + backhand volleys: 14 of 20 into the court"
+    },
+    {
+     "name": "Lob to the Box test",
+     "min": "10",
+     "obj": "5 of 10 in the last 2 m"
+    },
+    {
+     "name": "Mini-matches",
+     "min": "20",
+     "obj": "Win points at the net"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M3T1",
+   "module": 2,
+   "training": "T1",
+   "objectives": "Let the ball come off the back glass, turn, play it up and through the middle",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Throw and catch off the glass",
+     "min": "10",
+     "obj": "Read the bounce, catch after the glass"
+    },
+    {
+     "name": "Glass Ladder: forehand",
+     "min": "15",
+     "obj": "Coach feeds off the back glass, 6 of 10 back in court"
+    },
+    {
+     "name": "Feed and exit in pairs",
+     "min": "10",
+     "obj": "Partner throws, player plays the exit"
+    },
+    {
+     "name": "Glass game",
+     "min": "15",
+     "obj": "Points only after the ball hits the back glass"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M3T2",
+   "module": 2,
+   "training": "T2",
+   "objectives": "Backhand exit off the back glass, calm and through the middle",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Throw and catch: backhand side",
+     "min": "10",
+     "obj": "Turn the shoulder early"
+    },
+    {
+     "name": "Glass Ladder: backhand",
+     "min": "15",
+     "obj": "5 of 10 back in court"
+    },
+    {
+     "name": "Mixed forehand/backhand glass feeds",
+     "min": "10",
+     "obj": "Choose the side early"
+    },
+    {
+     "name": "Glass game",
+     "min": "15",
+     "obj": "Points only after the ball hits the back glass"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M3T3",
+   "module": 2,
+   "training": "T3",
+   "objectives": "Recognise the double-wall ball; let it come out and play it soft",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Coach demo and catch",
+     "min": "10",
+     "obj": "See where the ball comes out after two walls"
+    },
+    {
+     "name": "Fed double-wall balls",
+     "min": "15",
+     "obj": "5 of 10 back in court"
+    },
+    {
+     "name": "Mixed wall feeds",
+     "min": "10",
+     "obj": "Call 'one wall' or 'two walls' before hitting"
+    },
+    {
+     "name": "Wall-ball game",
+     "min": "15",
+     "obj": "Bonus point for a clean double-wall exit"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M3T4",
+   "module": 2,
+   "training": "T4",
+   "objectives": "Defend from the glass with a controlled ball to the middle",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Exit shadow",
+     "min": "10",
+     "obj": "Turn, wait, hit up and through"
+    },
+    {
+     "name": "Fed defence: glass then middle",
+     "min": "15",
+     "obj": "7 of 10 to the middle"
+    },
+    {
+     "name": "1v1 defend against the coach",
+     "min": "10",
+     "obj": "Keep 5 balls in play"
+    },
+    {
+     "name": "Defence game",
+     "min": "15",
+     "obj": "Back pair wins the point by surviving 5 balls"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M3T5",
+   "module": 2,
+   "training": "T5",
+   "objectives": "Lob from the back glass, high and deep",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Lob technique recap",
+     "min": "10",
+     "obj": "Open face, low to high, high finish"
+    },
+    {
+     "name": "Glass then lob feed",
+     "min": "15",
+     "obj": "5 of 10 land in the last 2 m"
+    },
+    {
+     "name": "Lob over the net player",
+     "min": "10",
+     "obj": "Make the net player turn"
+    },
+    {
+     "name": "Lob and close game",
+     "min": "15",
+     "obj": "After a good lob, both run to the net"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M3T6",
+   "module": 2,
+   "training": "T6",
+   "objectives": "Judge where the ball will come off the glass and get there early",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Guess-the-spot game",
+     "min": "10",
+     "obj": "Stand where the ball will land; coach throws"
+    },
+    {
+     "name": "Mixed glass feeds",
+     "min": "15",
+     "obj": "Move early, be set before the ball comes out"
+    },
+    {
+     "name": "Partner calls",
+     "min": "10",
+     "obj": "Call 'mine', 'yours' or 'glass'"
+    },
+    {
+     "name": "Live rallies with walls",
+     "min": "15",
+     "obj": "Use the glass at least once per rally"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M3T7",
+   "module": 2,
+   "training": "T7",
+   "objectives": "Use wall play in live rallies",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Cooperative rallies with glass",
+     "min": "15",
+     "obj": "Back glass at least once per rally"
+    },
+    {
+     "name": "2v2 games",
+     "min": "20",
+     "obj": "Defend with the walls, then lob"
+    },
+    {
+     "name": "Glass bonus game",
+     "min": "10",
+     "obj": "A point after a good glass exit counts double"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M3T8",
+   "module": 2,
+   "training": "T8",
+   "objectives": "Mid-programme assessment: 1–5 for every skill; tick Module 3",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Skills stations",
+     "min": "25",
+     "obj": "Forehand, backhand, volleys, wall play, serve: score 1–5"
+    },
+    {
+     "name": "Match play",
+     "min": "20",
+     "obj": "Coach watches decisions"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M4T1",
+   "module": 3,
+   "training": "T1",
+   "objectives": "Turn side-on, crossover steps back, point at the ball",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Shadow overhead footwork",
+     "min": "10",
+     "obj": "Side-on, crossover steps, arm up"
+    },
+    {
+     "name": "Catch the lob",
+     "min": "10",
+     "obj": "Move back and catch above the head"
+    },
+    {
+     "name": "Fed lobs: footwork and soft hit",
+     "min": "15",
+     "obj": "Get under the ball before hitting"
+    },
+    {
+     "name": "Lob and run game",
+     "min": "15",
+     "obj": "Coach lobs, kids get back in time"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M4T2",
+   "module": 3,
+   "training": "T2",
+   "objectives": "Bandeja: side-on, high contact, short swing with slice; control, not power",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Shadow bandeja",
+     "min": "10",
+     "obj": "Short swing, finish towards the target"
+    },
+    {
+     "name": "Fed bandejas",
+     "min": "15",
+     "obj": "6 of 10 in court, no power"
+    },
+    {
+     "name": "Bandeja to the middle",
+     "min": "10",
+     "obj": "Keep the net after the bandeja"
+    },
+    {
+     "name": "Bandeja game",
+     "min": "15",
+     "obj": "Point lost for a smash attempt"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M4T3",
+   "module": 3,
+   "training": "T3",
+   "objectives": "Bandeja to the side-glass corner, not the middle of the back glass",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Bandeja recap",
+     "min": "10",
+     "obj": "High contact, slice"
+    },
+    {
+     "name": "Bandeja Corner",
+     "min": "15",
+     "obj": "Corner box 5 of 10"
+    },
+    {
+     "name": "Bandeja and recover to the net",
+     "min": "10",
+     "obj": "Step back in after every bandeja"
+    },
+    {
+     "name": "Net v lob game",
+     "min": "15",
+     "obj": "Net pair keeps the net with bandejas"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M4T4",
+   "module": 3,
+   "training": "T4",
+   "objectives": "First víbora: more side spin so the ball stays low after the glass",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Víbora demo and shadow",
+     "min": "10",
+     "obj": "Contact to the side, brush the ball"
+    },
+    {
+     "name": "Fed víboras",
+     "min": "15",
+     "obj": "4 of 10 low off the glass"
+    },
+    {
+     "name": "Bandeja or víbora?",
+     "min": "10",
+     "obj": "Coach calls the shot before the feed"
+    },
+    {
+     "name": "Overhead game",
+     "min": "15",
+     "obj": "No smashes allowed"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M4T5",
+   "module": 3,
+   "training": "T5",
+   "objectives": "Smash only short, high balls in front; land balanced",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Shadow smash and landing",
+     "min": "10",
+     "obj": "Land on the front foot, balanced"
+    },
+    {
+     "name": "Fed short lobs: smash",
+     "min": "15",
+     "obj": "6 of 10 in court"
+    },
+    {
+     "name": "Smash or bandeja?",
+     "min": "10",
+     "obj": "Coach feeds mixed lobs, kid chooses"
+    },
+    {
+     "name": "Smash game",
+     "min": "15",
+     "obj": "Smash only on short lobs"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M4T6",
+   "module": 3,
+   "training": "T6",
+   "objectives": "Smash to the fence; older players try the por tres",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Demo",
+     "min": "5",
+     "obj": "Where to aim and why"
+    },
+    {
+     "name": "Fed smash to the fence",
+     "min": "15",
+     "obj": "5 of 10 to the back fence"
+    },
+    {
+     "name": "Por tres attempts (Group C)",
+     "min": "15",
+     "obj": "3 of 10 out over the side wall; younger groups keep flat smash"
+    },
+    {
+     "name": "Overhead game",
+     "min": "15",
+     "obj": "Bonus point for a good smash"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M4T7",
+   "module": 3,
+   "training": "T7",
+   "objectives": "Defend a smash from the back glass; lob again",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Read the smash",
+     "min": "10",
+     "obj": "Move back and wait for the glass"
+    },
+    {
+     "name": "Coach smashes, kids defend after the glass",
+     "min": "15",
+     "obj": "5 of 10 back in play"
+    },
+    {
+     "name": "Defend and lob",
+     "min": "10",
+     "obj": "Defence ends with a high lob"
+    },
+    {
+     "name": "Attack v defence game",
+     "min": "15",
+     "obj": "Defenders score by surviving 5 balls"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M4T8",
+   "module": 3,
+   "training": "T8",
+   "objectives": "Check overheads; tick Module 4",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Overhead stations",
+     "min": "20",
+     "obj": "Bandeja, smash, defence: score 1–5"
+    },
+    {
+     "name": "Smash-or-bandeja challenge",
+     "min": "10",
+     "obj": "Right shot for the ball"
+    },
+    {
+     "name": "Games",
+     "min": "15",
+     "obj": "Use the overheads from the month"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M5T1",
+   "module": 4,
+   "training": "T1",
+   "objectives": "Serve consistency and placement",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Serve warm-up",
+     "min": "10",
+     "obj": "10 serves each, find the rhythm"
+    },
+    {
+     "name": "Serve to targets: middle, body, glass",
+     "min": "15",
+     "obj": "6 of 10 to the called target"
+    },
+    {
+     "name": "Serve and move in",
+     "min": "10",
+     "obj": "Serve, then walk to the net"
+    },
+    {
+     "name": "Serve game",
+     "min": "15",
+     "obj": "Double point for an ace to the target"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M5T2",
+   "module": 4,
+   "training": "T2",
+   "objectives": "Return low and crosscourt, or lob over the net player",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Return shadow",
+     "min": "5",
+     "obj": "Short swing, split step on the serve"
+    },
+    {
+     "name": "Crosscourt returns, low",
+     "min": "20",
+     "obj": "6 of 10 past the service line, low"
+    },
+    {
+     "name": "Return lob",
+     "min": "10",
+     "obj": "Lob over the net player"
+    },
+    {
+     "name": "Serve-return game",
+     "min": "15",
+     "obj": "Points start from serve and return"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M5T3",
+   "module": 4,
+   "training": "T3",
+   "objectives": "Move as a pair: up together, back together, middle closed",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "The Rope",
+     "min": "10",
+     "obj": "Same depth as your partner"
+    },
+    {
+     "name": "Freeze",
+     "min": "15",
+     "obj": "Check distance, depth and the middle"
+    },
+    {
+     "name": "Up together, back together",
+     "min": "10",
+     "obj": "Move with partner on every lob"
+    },
+    {
+     "name": "Game with freeze calls",
+     "min": "15",
+     "obj": "Coach stops play to check positions"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M5T4",
+   "module": 4,
+   "training": "T4",
+   "objectives": "Communicate on every ball; switch sides on the lob",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Call game",
+     "min": "10",
+     "obj": "'Mine' or 'yours' on every ball"
+    },
+    {
+     "name": "Middle ball drill",
+     "min": "15",
+     "obj": "Forehand player takes the middle"
+    },
+    {
+     "name": "Switch on the lob",
+     "min": "10",
+     "obj": "Partner covers when one runs back"
+    },
+    {
+     "name": "Talking-only game",
+     "min": "15",
+     "obj": "Point lost if nobody calls"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M5T5",
+   "module": 4,
+   "training": "T5",
+   "objectives": "Know when to attack and when to defend",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Defence: lob against the net pair",
+     "min": "15",
+     "obj": "Lob when out of position"
+    },
+    {
+     "name": "Attack: low volley to the feet",
+     "min": "15",
+     "obj": "6 of 10 low to the feet"
+    },
+    {
+     "name": "Pattern game: lob, run, volley",
+     "min": "15",
+     "obj": "Win the net back"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M5T6",
+   "module": 4,
+   "training": "T6",
+   "objectives": "Chiquita: soft, low ball to the net player's feet",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Soft hands drill",
+     "min": "10",
+     "obj": "Slow swing, feel the ball"
+    },
+    {
+     "name": "Chiquita to the box",
+     "min": "15",
+     "obj": "6 of 10 land before the service line"
+    },
+    {
+     "name": "Chiquita and close",
+     "min": "15",
+     "obj": "Play it, then both advance"
+    },
+    {
+     "name": "Game",
+     "min": "10",
+     "obj": "Bonus point after a chiquita"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M5T7",
+   "module": 4,
+   "training": "T7",
+   "objectives": "Build the point: patience before the finish",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "3-shot patterns",
+     "min": "15",
+     "obj": "Serve, volley to the middle, finish"
+    },
+    {
+     "name": "Build-the-point game",
+     "min": "20",
+     "obj": "A winner counts only after 3 shots"
+    },
+    {
+     "name": "Target the weak side",
+     "min": "10",
+     "obj": "Play to the opponents' backhand"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M5T8",
+   "module": 4,
+   "training": "T8",
+   "objectives": "Tactical match play with a plan",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Pre-match plan",
+     "min": "5",
+     "obj": "Each pair picks a target and a pattern"
+    },
+    {
+     "name": "Matches with coach time-outs",
+     "min": "35",
+     "obj": "Coach checks the plan at time-outs"
+    },
+    {
+     "name": "Review",
+     "min": "10",
+     "obj": "Did the plan work? What would you change?"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M6T1",
+   "module": 5,
+   "training": "T1",
+   "objectives": "Play like a real match from warm-up to the last point",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Match warm-up routine",
+     "min": "10",
+     "obj": "Warm up like before a tournament"
+    },
+    {
+     "name": "Simulated sets",
+     "min": "30",
+     "obj": "Full scoring, change ends"
+    },
+    {
+     "name": "Coach feedback per pair",
+     "min": "10",
+     "obj": "One positive, one thing to fix"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M6T2",
+   "module": 5,
+   "training": "T2",
+   "objectives": "Know the scoring and match rules",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Scoring quiz",
+     "min": "10",
+     "obj": "Golden point, tie-break, changing ends"
+    },
+    {
+     "name": "Umpire practice",
+     "min": "15",
+     "obj": "Kids take turns as umpire"
+    },
+    {
+     "name": "Matches with rules check",
+     "min": "25",
+     "obj": "Players keep their own score"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M6T3",
+   "module": 5,
+   "training": "T3",
+   "objectives": "Stay calm and choose well on big points",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Golden-point games",
+     "min": "20",
+     "obj": "Every game goes to the golden point"
+    },
+    {
+     "name": "Start at 30–40 down",
+     "min": "15",
+     "obj": "Come back from behind"
+    },
+    {
+     "name": "Breathing and routine",
+     "min": "5",
+     "obj": "Same routine before every big point"
+    },
+    {
+     "name": "Review",
+     "min": "10",
+     "obj": "What helped on the big points?"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M6T4",
+   "module": 5,
+   "training": "T4",
+   "objectives": "Mini-tournament, round 1",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Group-stage matches",
+     "min": "40",
+     "obj": "Round robin, short sets"
+    },
+    {
+     "name": "Results and table",
+     "min": "5",
+     "obj": "Post the table"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M6T5",
+   "module": 5,
+   "training": "T5",
+   "objectives": "Each player works on their weakest shot",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Weak-spot stations",
+     "min": "30",
+     "obj": "One area per kid, taken from their reports"
+    },
+    {
+     "name": "Retest",
+     "min": "15",
+     "obj": "Same test as before, compare"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M6T6",
+   "module": 5,
+   "training": "T6",
+   "objectives": "Mini-tournament, round 2",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Knockout matches",
+     "min": "40",
+     "obj": "Semi-finals and finals"
+    },
+    {
+     "name": "Results",
+     "min": "5",
+     "obj": "Announce the winners"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M6T7",
+   "module": 5,
+   "training": "T7",
+   "objectives": "Final assessment: 1–5 for every skill",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Skills stations",
+     "min": "30",
+     "obj": "Final 1–5 for every skill, compare with October"
+    },
+    {
+     "name": "Match play",
+     "min": "15",
+     "obj": "Coach watches decisions"
+    },
+    {
+     "name": "Review circle",
+     "min": "5",
+     "obj": "Each kid says one thing they learned and one to work on"
+    }
+   ],
+   "updatedBy": "Navid"
+  },
+  {
+   "id": "M6T8",
+   "module": 5,
+   "training": "T8",
+   "objectives": "Graduation tournament and awards",
+   "exercises": [
+    {
+     "name": "Beast warm-up",
+     "min": "10",
+     "obj": "Mobility, skipping, shoulder bands, split steps"
+    },
+    {
+     "name": "Graduation tournament",
+     "min": "35",
+     "obj": "Mixed pairs, short matches"
+    },
+    {
+     "name": "Awards and certificates",
+     "min": "10",
+     "obj": "Every kid gets an award"
+    },
+    {
+     "name": "Photos with parents",
+     "min": "5",
+     "obj": "Team and family photos"
+    }
+   ],
+   "updatedBy": "Navid"
+  }
+ ]
+}
