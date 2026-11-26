@@ -1,0 +1,39 @@
+<!doctype html>
+<meta charset="utf-8"><title>Portal simulator</title>
+<body>Starting the simulator…
+<script type="module">
+// Runs the REAL Coach Portal screens against the REAL server code (netlify/lib/portal-core.mjs) with an in-memory fake of
+// Netlify Blobs. Nothing is saved: reload to reset. Use it to test the whole flow on your own computer.
+import { handle } from "/netlify/lib/portal-core.mjs";
+const KEY = "sim-setup-key-0123456789", env = { PORTAL_SETUP_KEY: KEY };
+// Data survives a reload (sessionStorage) so you can open a one-time link like a real coach. Add #reset to start fresh.
+const hashArgs = new URLSearchParams(location.hash.slice(1));
+if (hashArgs.has("reset")) sessionStorage.removeItem("pb_sim");
+const saved = JSON.parse(sessionStorage.getItem("pb_sim") || "null");
+const m = new Map(saved ? saved.m : []); let n = saved ? saved.n : 0; let cookie = saved ? saved.cookie : "";
+const persist = () => sessionStorage.setItem("pb_sim", JSON.stringify({ m: [...m], n, cookie }));
+const store = {
+  async get(k) { await 0; const e = m.get(k); return e ? { data: structuredClone(e.data), etag: `"${e.v}"` } : null; },
+  async set(k, d, o = {}) { await 0; const e = m.get(k); if (o.onlyIfNew && e) return { modified: false }; if (o.onlyIfMatch && (!e || `"${e.v}"` !== o.onlyIfMatch)) return { modified: false }; m.set(k, { data: structuredClone(d), v: ++n }); persist(); return { modified: true }; },
+  async delete(k) { m.delete(k); persist(); },
+};
+globalThis.__PB_SIM__ = true; globalThis.__SIM__ = { KEY, store };
+const realFetch = fetch.bind(window);
+window.fetch = async (url, opts = {}) => {
+  const u = new URL(url, location.href);
+  if (!u.pathname.startsWith("/api/portal")) return realFetch(url, opts);
+  const headers = { ...Object.fromEntries(new Headers(opts.headers || {})), host: location.host, origin: location.origin, cookie };
+  const r = await handle({ method: opts.method || "GET", path: u.pathname.replace("/api/portal", ""), headers, body: opts.body || "", ip: "1.2.3.4" }, store, env);
+  const sc = r.headers["set-cookie"]; if (sc) { cookie = /Max-Age=0/.test(sc) ? "" : sc.split(";")[0]; persist(); }
+  return new Response(r.body, { status: r.status, headers: { "content-type": "application/json" } });
+};
+if (!saved) // seed the methodology + session plans the way the real import does (setup-key guarded)
+for (const [table, file, pick] of (saved ? [] :  [["content", "methodology.json", d => [{ key: "methodology", data: d }]], ["session_plans", "session-plans.json", d => d.plans.map(p => ({ id: p.id, module: p.module, training: p.training, objectives: p.objectives, exercises: p.exercises, updated_by_name: p.updatedBy }))]])) {
+  const rows = pick(await (await realFetch("/portal-ops/content/" + file)).json());
+  const r = await handle({ method: "POST", path: "/import", ip: "1.2.3.4", headers: { "x-portal": "1", "x-setup-key": KEY, host: location.host }, body: JSON.stringify({ table, rows }) }, store, env);
+  if (r.status !== 200) { document.body.textContent = "Seed failed: " + r.body; throw new Error("seed"); }
+}
+history.replaceState(null, "", hashArgs.get("go") || (saved ? "/coaches/login" : "/coaches/first-admin"));
+const html = await (await realFetch("/coaches/index.html")).text();
+document.open(); document.write(html); document.close();
+</script>

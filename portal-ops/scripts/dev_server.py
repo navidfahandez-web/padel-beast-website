@@ -10,7 +10,7 @@ class H(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *a, **k): super().__init__(*a, directory=ROOT, **k)
     def do_GET(self):
         path = self.path.split("?")[0]
-        if path.startswith("/portal-ops/") and not path.startswith("/portal-ops/content/"):
+        if path.startswith("/portal-ops/") and not path.startswith(("/portal-ops/content/", "/portal-ops/tests/")):
             self.send_error(404); return   # mirror the Netlify block (content/ is allowed here for demo mode only)
         if path.startswith("/coaches/") and not os.path.splitext(path)[1] and not os.path.isfile(ROOT + path):
             self.path = "/coaches/index.html"

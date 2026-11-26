@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
-"""Import the Player Reports export + methodology + session plans into Supabase.
-Python port of the brief's import-seed.mjs (this Mac has no Node). No packages needed.
+"""Load data into the Coach Portal: the old Player Reports export, or a backup file downloaded from the portal.
+No packages needed (this Mac has no Node). Prints counts only, never names or notes.
+
+Setup (on your own computer, never committed):
+  1. Put the setup key (the same value as PORTAL_SETUP_KEY in Netlify) and the site address in portal-ops/.env:
+       PORTAL_URL=https://thepadelbeast.com            (or the Netlify preview address while testing)
+       PORTAL_SETUP_KEY=the-long-secret-you-chose-in-netlify
+  2. Put the private export at portal-ops/seed-data/export-2026-11-25.json  (gitignored)
 
 Usage (from the portal-ops folder):
-  1. Create portal-ops/.env  (never commit it) with:
-       SUPABASE_URL=https://xxxx.supabase.co
-       SUPABASE_SERVICE_ROLE_KEY=...        <- keep this secret
-  2. Put the private export at portal-ops/seed-data/export-2026-11-25.json  (gitignored)
-  3. python3 scripts/import_seed.py --skip-samples     (recommended)
-Safe to run twice: it upserts by id. Prints counts only, never names or notes.
+  python3 scripts/import_seed.py --skip-samples        first import (recommended: leaves out the sample lessons)
+  python3 scripts/import_seed.py --backup FILE.json    restore from a backup downloaded with "Download backup"
+Safe to run twice: records are matched by id and overwritten.
 """
 import json, os, sys, urllib.request, urllib.error
 from pathlib import Path
@@ -20,31 +23,47 @@ if envfile.exists():
     for line in envfile.read_text().splitlines():
         if "=" in line and not line.strip().startswith("#"):
             k, v = line.split("=", 1); env[k.strip()] = v.strip().strip('"').strip("'")
-url = (env.get("SUPABASE_URL") or os.environ.get("SUPABASE_URL") or "").rstrip("/")
-key = env.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+url = (env.get("PORTAL_URL") or os.environ.get("PORTAL_URL") or "").rstrip("/")
+key = env.get("PORTAL_SETUP_KEY") or os.environ.get("PORTAL_SETUP_KEY")
 if not url or not key:
-    sys.exit("Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in portal-ops/.env")
+    sys.exit("Set PORTAL_URL and PORTAL_SETUP_KEY in portal-ops/.env")
+if not url.startswith("https://") and not url.startswith("http://localhost"):
+    sys.exit("PORTAL_URL must start with https://")
 skip_samples = "--skip-samples" in sys.argv
+def arg(name):
+    return sys.argv[sys.argv.index(name) + 1] if name in sys.argv and sys.argv.index(name) + 1 < len(sys.argv) else None
 
-def upsert(table, rows, on_conflict="id"):
+def upsert(table, rows, on_conflict=None):
     if not rows:
         print(f"{table}: 0"); return
-    for i in range(0, len(rows), 200):
-        batch = rows[i:i + 200]
+    for i in range(0, len(rows), 100):
         req = urllib.request.Request(
-            f"{url}/rest/v1/{table}?on_conflict={on_conflict}", data=json.dumps(batch).encode(), method="POST",
-            headers={"apikey": key, "Authorization": f"Bearer {key}", "Content-Type": "application/json",
-                     "Prefer": "resolution=merge-duplicates,return=minimal"})
+            f"{url}/api/portal/import", data=json.dumps({"table": table, "rows": rows[i:i + 100]}).encode(), method="POST",
+            headers={"Content-Type": "application/json", "X-Portal": "1", "X-Setup-Key": key, "User-Agent": "padel-beast-import"})
         try:
-            urllib.request.urlopen(req)
+            urllib.request.urlopen(req, timeout=60)
         except urllib.error.HTTPError as e:
-            sys.exit(f"{table} failed: HTTP {e.code} {e.read().decode()[:300]}")
+            try: msg = json.loads(e.read().decode()).get("error", "")
+            except Exception: msg = ""
+            sys.exit(f"{table} failed: HTTP {e.code} {msg}")
+        except urllib.error.URLError as e:
+            sys.exit(f"Could not reach {url}: {e.reason}")
     print(f"{table}: {len(rows)}")
+
+# ----- restore mode: a backup downloaded from the portal -----
+if arg("--backup"):
+    bk = json.loads(Path(arg("--backup")).read_text())
+    stamped = ("created_at", "created_by", "updated_at", "updated_by")
+    clean = lambda rows: [{k: v for k, v in r.items() if k not in stamped} for r in rows]
+    for t in ("players", "lessons", "lesson_feedback", "progress_reports", "objectives", "session_plans"):
+        upsert(t, clean(bk.get(t, [])))
+    upsert("content", bk.get("content", []))
+    sys.exit("Restore done. Coaches are not part of a backup: invite them again from the Coaches screen if the portal was empty.")
 
 def d(v): return v if v else None
 def group_of(g): return g if g in ("A", "B", "C", "mixed", "adult") else None
 
-exp = json.loads((root / "seed-data" / "export-2026-11-25.json").read_text())
+exp = json.loads(Path(arg("--seed") or root / "seed-data" / "export-2026-11-25.json").read_text())
 plans = json.loads((root / "content" / "session-plans.json").read_text())["plans"]
 meth = json.loads((root / "content" / "methodology.json").read_text())
 keep = lambda r: not (skip_samples and r.get("sample"))
@@ -74,7 +93,7 @@ for l in lessons:
         fb.append({"lesson_id": l["id"], "player_id": pid, "attendance": f.get("present") or "Present",
                    "rating": int(f.get("rating") or 0), "comment": d(f.get("comment")),
                    "improve": d(f.get("improve")), "next_focus": d(f.get("next"))})
-upsert("lesson_feedback", fb, "lesson_id,player_id")
+upsert("lesson_feedback", fb)
 
 upsert("progress_reports", [{
     "id": r["id"], "player_id": r["playerId"], "date": r["date"], "type": d(r.get("type")), "coach_name": d(r.get("coach")),
@@ -93,5 +112,5 @@ upsert("objectives", [{
 
 upsert("session_plans", [{"id": p["id"], "module": p["module"], "training": p["training"], "objectives": p["objectives"],
                           "exercises": p["exercises"], "updated_by_name": p.get("updatedBy") or "Navid"} for p in plans])
-upsert("content", [{"key": "methodology", "data": meth}], "key")
+upsert("content", [{"key": "methodology", "data": meth}])
 print("Done (sample records skipped)." if skip_samples else "Done (including sample records).")

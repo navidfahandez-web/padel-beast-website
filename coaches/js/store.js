@@ -16,7 +16,7 @@ const fromReport = r => ({ id: r.id, playerId: r.player_id, date: r.date, type: 
 const fromObjective = r => ({ id: r.id, playerId: r.player_id, kind: r.kind, title: r.title, target: r.target || "", due: r.due || "", status: r.status, date: r.tournament_date || "", category: r.category || "", partner: r.partner || "", result: r.result || "—", createdAt: r.created_at || "" });
 
 export async function loadAll() {
-  const [co, pl, ls, fb, rp, ob, sp, ct] = await Promise.all(["coaches", "players", "lessons", "lesson_feedback", "progress_reports", "objectives", "session_plans", "content"].map(t => api.list(t)));
+  const { coaches: co, players: pl, lessons: ls, lesson_feedback: fb, progress_reports: rp, objectives: ob, session_plans: sp, content: ct } = await api.all();
   const meth = ct.find(c => c.key === "methodology");
   if (!meth) throw new Error("Coaching content is missing. Ask Navid to run the import.");
   initContent(meth.data);
@@ -37,9 +37,10 @@ export async function loadAll() {
 // Run a write, then refresh everything so all screens agree. Errors bubble up as readable messages.
 async function write(fn) { try { await fn(); } catch (e) { throw new Error(friendly(e)); } await loadAll(); }
 function friendly(e) {
-  const m = String(e?.message || e || "");
-  if (/row-level security|permission|not allowed/i.test(m)) return "You don't have permission to do that.";
-  if (/fetch|network|failed to/i.test(m)) return "Could not reach the server. Check your connection and try again.";
+  if (e?.status === 401) return "Your session ended. Please log in again.";
+  if (e?.status === 403) return "You don't have permission to do that.";
+  if (e?.status === 0) return e.message;
+  if (e?.status === 400 || e?.status === 409 || e?.status === 503) return e.message; // server messages never contain player data
   return "Could not save. Please try again.";
 }
 
@@ -64,5 +65,8 @@ export const deleteReport = id => write(() => api.remove("progress_reports", { i
 export const saveObjective = o => write(() => api.upsert("objectives", [{ id: o.id, player_id: o.playerId, kind: o.kind, title: o.title, target: nn(o.target), due: nn(o.due), status: o.status, tournament_date: nn(o.date), category: nn(o.category), partner: nn(o.partner), result: o.result || "—" }]));
 export const deleteObjective = id => write(() => api.remove("objectives", { id }));
 
-export async function manageCoach(action, payload) { try { await api.manage(action, payload); } catch (e) { throw new Error(e.message || "Could not complete that."); } await loadAll(); }
+export async function manageCoach(action, payload) {
+  let out; try { out = await api.manage(action, payload); } catch (e) { throw new Error(e.message || "Could not complete that."); }
+  await loadAll(); return out;
+}
 export const newId = uid;

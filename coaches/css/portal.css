@@ -126,3 +126,7 @@ details summary{list-style-position:inside}
   label:has(> input[type=checkbox]){min-height:44px;display:flex;align-items:center;gap:10px}
   input[type=checkbox]{width:24px;height:24px}
 }
+.linkcard{margin-top:16px;border-left:6px solid var(--yellow,#FFC82C)}
+.copyrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.copyrow input{flex:1 1 260px;min-width:0}
+.auth code{font-size:13px}

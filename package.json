@@ -1,0 +1,12 @@
+{
+  "name": "padel-beast-website",
+  "private": true,
+  "type": "module",
+  "description": "Padel Beast website (static) plus the Coach Portal API (Netlify Function + Netlify Blobs)",
+  "dependencies": {
+    "@netlify/blobs": "11.1.7"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

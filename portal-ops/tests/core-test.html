@@ -1,0 +1,177 @@
+<!doctype html>
+<meta charset="utf-8"><title>Portal core tests</title>
+<body style="font:14px/1.5 system-ui;margin:24px"><h1>Coach Portal: server core tests</h1><p>Open this page from the local dev server (<code>python3 portal-ops/scripts/dev_server.py</code>) at <code>/portal-ops/tests/core-test.html</code>. It runs the real API code against an in-memory fake of Netlify Blobs. Takes about 20 seconds (password hashing is deliberately slow).</p><pre id="out"></pre>
+<script type="module">
+import { handle } from "/netlify/lib/portal-core.mjs";
+const out = document.getElementById("out"); let pass = 0, fail = 0; const failures = [];
+const log = (ok, name, extra = "") => { ok ? pass++ : (fail++, failures.push(name)); out.textContent += `${ok ? "PASS" : "FAIL"}  ${name}${ok ? "" : "  " + extra}\n`; };
+const eq = (name, a, b) => log(JSON.stringify(a) === JSON.stringify(b), name, `got ${JSON.stringify(a)} expected ${JSON.stringify(b)}`);
+
+function fakeStore() {
+  const m = new Map(); let n = 0;
+  return { m, failNext: 0, async get(k) { await 0; const e = m.get(k); return e ? { data: structuredClone(e.data), etag: `"${e.v}"` } : null; },
+    async set(k, d, o = {}) { await 0; const e = m.get(k);
+      if (o.onlyIfNew && e) return { modified: false };
+      if (o.onlyIfMatch && (!e || `"${e.v}"` !== o.onlyIfMatch)) return { modified: false };
+      if (this.failNext > 0 && o.onlyIfMatch) { this.failNext--; return { modified: false }; }
+      m.set(k, { data: structuredClone(d), v: ++n }); return { modified: true }; },
+    async delete(k) { m.delete(k); } };
+}
+const KEY = "test-setup-key-0123456789";
+const env = { PORTAL_SETUP_KEY: KEY };
+let store = fakeStore();
+async function call(method, path, body, o = {}) {
+  const r = await handle({ method, path, ip: o.ip || "9.9.9.1", body: body === undefined ? "" : JSON.stringify(body),
+    headers: { ...(method === "GET" ? {} : { "x-portal": "1" }), host: "site.test", cookie: o.cookie || "", ...(o.headers || {}) } }, o.store || store, o.env || env);
+  const j = JSON.parse(r.body); const sc = r.headers["set-cookie"];
+  return { status: r.status, j, cookie: sc ? sc.split(";")[0] : null, raw: r.body, headers: r.headers };
+}
+const player = (id, extra = {}) => ({ id, name: "Test " + id, level: 1, program: "Junior programme", junior_group: "A", ...extra });
+
+try {
+  // ---------- first admin ----------
+  let r = await call("GET", "/status", undefined, { env: {} }); eq("status: not ready, no bootstrap without key", [r.j.ready, r.j.bootstrap], [false, false]);
+  r = await call("GET", "/status"); eq("status: bootstrap offered when key set and no coaches", [r.j.ready, r.j.bootstrap], [false, true]);
+  r = await call("POST", "/first-admin", { key: "wrong-wrong-wrong-wrong", name: "Admin", email: "admin@t.test", password: "correct horse battery" }); eq("first-admin: wrong key refused", r.status, 403);
+  r = await call("POST", "/first-admin", { key: KEY, name: "Admin", email: "admin@t.test", password: "short" }); eq("first-admin: short password refused", r.status, 400);
+  r = await call("POST", "/first-admin", { key: KEY, name: "Admin", email: "admin@t.test", password: "correct horse battery" }); eq("first-admin: created", [r.status, r.j.user.role], [200, "admin"]);
+  const admin = r.cookie; log(/^pb_session=/.test(admin || ""), "first-admin: session cookie issued");
+  log(/HttpOnly/.test(r.headers["set-cookie"]) && /Secure/.test(r.headers["set-cookie"]) && /SameSite=Strict/.test(r.headers["set-cookie"]), "cookie is HttpOnly, Secure, SameSite=Strict");
+  r = await call("POST", "/first-admin", { key: KEY, name: "Evil", email: "evil@t.test", password: "correct horse battery" }, { ip: "9.9.9.2" }); eq("first-admin: cannot be used twice", r.status, 409);
+  r = await call("GET", "/status"); eq("status: ready after first admin", [r.j.ready, r.j.bootstrap], [true, false]);
+
+  // ---------- request guards & login ----------
+  r = await call("POST", "/login", { email: "admin@t.test", password: "correct horse battery" }, { headers: { "x-portal": "" } }); eq("POST without X-Portal header refused (CSRF)", r.status, 403);
+  r = await call("POST", "/login", { email: "admin@t.test", password: "correct horse battery" }, { headers: { origin: "https://evil.example" } }); eq("POST from another origin refused", r.status, 403);
+  r = await call("POST", "/login", { email: "admin@t.test", password: "wrong password!!" }); eq("login: wrong password", [r.status, r.j.error], [401, "That email and password don't match."]);
+  r = await call("POST", "/login", { email: "nobody@t.test", password: "whatever12345" }); eq("login: unknown email gives the same message", [r.status, r.j.error], [401, "That email and password don't match."]);
+  r = await call("POST", "/login", { email: " ADMIN@t.test ", password: "correct horse battery" }); eq("login: ok (email case/space-insensitive)", r.status, 200);
+  const adminB = r.cookie;
+  r = await call("GET", "/all"); eq("GET /all without login refused", r.status, 401);
+  r = await call("GET", "/all", undefined, { cookie: "pb_session=" + "x".repeat(43) }); eq("GET /all with a fake cookie refused", r.status, 401);
+  r = await call("GET", "/me", undefined, { cookie: admin }); eq("me", r.j.user.email, "admin@t.test");
+
+  // ---------- data: validation ----------
+  const W = (body, cookie = admin) => call("POST", "/write", body, { cookie });
+  r = await W({ op: "upsert", table: "players", rows: [player("p1")] }); eq("save player", r.status, 200);
+  r = await W({ op: "upsert", table: "players", rows: [player("p2", { name: "Second" })], onConflict: "id" }); eq("save player with onConflict id", r.status, 200);
+  r = await W({ op: "upsert", table: "players", rows: [player("p3", { role: "admin" })] }); eq("unknown field refused", r.status, 400);
+  r = await W({ op: "upsert", table: "players", rows: [player("p3", { level: 9 })] }); eq("level out of range refused", r.status, 400);
+  r = await W({ op: "upsert", table: "players", rows: [player("p3", { dob: "31/12/2015" })] }); eq("bad date refused", r.status, 400);
+  r = await W({ op: "upsert", table: "players", rows: [player("__proto__")] }); eq("reserved id refused", r.status, 400);
+  r = await W({ op: "upsert", table: "players", rows: [player("a b")] }); eq("id with a space refused", r.status, 400);
+  r = await W({ op: "upsert", table: "players", rows: [{ id: "p4", level: 1 }] }); eq("missing name refused", r.status, 400);
+  r = await W({ op: "upsert", table: "players", rows: [player("p3", { name: "x".repeat(500) })] }); eq("over-long name refused", r.status, 400);
+  r = await W({ op: "upsert", table: "coaches", rows: [{ user_id: "x" }] }); eq("cannot write the coaches table directly", r.status, 400);
+  r = await W({ op: "upsert", table: "content", rows: [{ key: "methodology", data: {} }] }); eq("cannot write content through /write", r.status, 400);
+  r = await W({ op: "upsert", table: "players", rows: [player("p1", { name: "Renamed" })] }); eq("update player (merge)", r.status, 200);
+  const lesson = { id: "L1", date: "2026-11-20", coach_name: "Admin", group_code: "A", module: 0, training: "T1", summary: "Did stuff", exercises: [{ name: "x", min: 5, obj: "y" }] };
+  r = await W({ op: "upsert", table: "lessons", rows: [lesson] }); eq("save lesson", r.status, 200);
+  r = await W({ op: "upsert", table: "lessons", rows: [{ ...lesson, id: "L2", training: "T9" }] }); eq("bad training code refused", r.status, 400);
+  r = await W({ op: "upsert", table: "lesson_feedback", rows: [{ lesson_id: "L1", player_id: "p1", attendance: "Present", rating: 4, comment: "Great" }, { lesson_id: "L1", player_id: "p2", attendance: "Late", rating: 3 }], onConflict: "lesson_id,player_id" }); eq("save feedback", r.status, 200);
+  r = await W({ op: "upsert", table: "lesson_feedback", rows: [{ lesson_id: "L1", player_id: "ghost", attendance: "Present", rating: 4 }] }); eq("feedback for an unknown player refused", r.status, 400);
+  r = await W({ op: "upsert", table: "lesson_feedback", rows: [{ lesson_id: "L1", player_id: "p1", attendance: "Maybe", rating: 4 }] }); eq("bad attendance refused", r.status, 400);
+  r = await W({ op: "upsert", table: "lesson_feedback", rows: [{ lesson_id: "L1", player_id: "p1", attendance: "Present", rating: 4 }], onConflict: "id" }); eq("wrong onConflict refused", r.status, 400);
+  r = await W({ op: "upsert", table: "objectives", rows: [{ id: "o1", player_id: "p1", kind: "Technique", title: "Better forehand", status: "Open" }] }); eq("save objective", r.status, 200);
+  r = await W({ op: "upsert", table: "progress_reports", rows: [{ id: "r1", player_id: "p1", date: "2026-11-21", pillars: { position: 7 } }] }); eq("save progress report", r.status, 200);
+  r = await W({ op: "upsert", table: "session_plans", rows: [{ id: "M1T1", module: 0, training: "T1", objectives: "x", exercises: [] }] }); eq("save session plan", r.status, 200);
+
+  r = await call("GET", "/all", undefined, { cookie: admin });
+  eq("all: counts", [r.j.players.length, r.j.lessons.length, r.j.lesson_feedback.length, r.j.objectives.length, r.j.progress_reports.length, r.j.session_plans.length], [2, 1, 2, 1, 1, 1]);
+  eq("all: player was merged, defaults applied", [r.j.players.find(p => p.id === "p1").name, r.j.players.find(p => p.id === "p1").archived], ["Renamed", false]);
+  log(!/"salt"|"hash"|"pw_version"|"setup"/.test(r.raw), "all: no password material is ever returned");
+  log(r.j.players[0].updated_by && r.j.players[0].created_at, "rows are stamped with who/when");
+
+  // ---------- coaches: invite, setup, permissions ----------
+  r = await call("POST", "/coach", { action: "invite", name: "Marc Coach", email: "Marc@T.test", role: "coach" }, { cookie: admin }); eq("invite returns a one-time token", [r.status, typeof r.j.token], [200, "string"]);
+  const tok = r.j.token;
+  r = await call("POST", "/coach", { action: "invite", name: "Dup", email: "marc@t.test", role: "coach" }, { cookie: admin }); eq("duplicate email refused", r.status, 409);
+  r = await call("POST", "/login", { email: "marc@t.test", password: "anything12345" }); eq("invited coach cannot log in before choosing a password", r.status, 401);
+  r = await call("POST", "/setup-info", { token: tok }); eq("setup-info shows who the link is for", [r.status, r.j.name], [200, "Marc Coach"]);
+  r = await call("POST", "/setup-info", { token: "not-a-real-token-not-a-real-token" }); eq("bad token refused", r.status, 400);
+  r = await call("POST", "/setup", { token: tok, password: "marc@t.test" }); eq("password equal to email refused", r.status, 400);
+  r = await call("POST", "/setup", { token: tok, password: "short" }); eq("short password refused at setup", r.status, 400);
+  r = await call("POST", "/setup", { token: tok, password: "marcs own passphrase" }); eq("coach sets own password", [r.status, r.j.user.role], [200, "coach"]);
+  const marc = r.cookie;
+  r = await call("POST", "/setup", { token: tok, password: "another passphrase!" }); eq("setup link works only once", r.status, 400);
+  r = await call("GET", "/all", undefined, { cookie: marc }); eq("coach can read data", [r.status, r.j.players.length], [200, 2]);
+  const M = (body) => call("POST", "/write", body, { cookie: marc });
+  r = await M({ op: "upsert", table: "players", rows: [player("p5")] }); eq("coach can add a player", r.status, 200);
+  r = await M({ op: "remove", table: "players", match: { id: "p5" } }); eq("coach cannot delete a player", r.status, 403);
+  r = await M({ op: "remove", table: "lessons", match: { id: "L1" } }); eq("coach cannot delete a lesson", r.status, 403);
+  r = await M({ op: "remove", table: "objectives", match: { id: "o1" } }); eq("coach cannot delete an objective", r.status, 403);
+  r = await call("POST", "/coach", { action: "invite", name: "X", email: "x@t.test" }, { cookie: marc }); eq("coach cannot invite", r.status, 403);
+  r = await call("POST", "/coach", { action: "deactivate", user_id: "whatever" }, { cookie: marc }); eq("coach cannot deactivate", r.status, 403);
+  r = await M({ op: "upsert", table: "lesson_feedback", rows: [{ lesson_id: "L1", player_id: "p5", attendance: "Present", rating: 2 }] });
+  r = await M({ op: "remove", table: "lesson_feedback", match: { lesson_id: "L1", player_id: "p5" } }); eq("coach can remove a player from a lesson", r.status, 200);
+
+  // ---------- deactivate / link / revoke ----------
+  r = await call("GET", "/all", undefined, { cookie: admin }); const marcId = r.j.coaches.find(c => c.email === "marc@t.test").user_id; const adminId = r.j.coaches.find(c => c.email === "admin@t.test").user_id;
+  eq("coaches list shows status without secrets", [r.j.coaches.find(c => c.user_id === marcId).pending, r.j.coaches.length], [false, 2]);
+  r = await call("POST", "/coach", { action: "deactivate", user_id: adminId }, { cookie: admin }); eq("admin cannot deactivate themselves", r.status, 400);
+  r = await call("POST", "/coach", { action: "link", user_id: marcId }, { cookie: admin }); const tok2 = r.j.token; eq("admin can make a new password link", [r.status, typeof tok2], [200, "string"]);
+  r = await call("GET", "/me", undefined, { cookie: marc }); eq("old session still works until the new password is set", r.status, 200);
+  r = await call("POST", "/setup", { token: tok2, password: "marcs new passphrase" }); const marc2 = r.cookie; eq("coach sets a new password", r.status, 200);
+  r = await call("GET", "/me", undefined, { cookie: marc }); eq("old sessions are revoked after a password change", r.status, 401);
+  r = await call("POST", "/coach", { action: "deactivate", user_id: marcId }, { cookie: admin }); eq("admin deactivates coach", r.status, 200);
+  r = await call("GET", "/all", undefined, { cookie: marc2 }); eq("deactivated coach loses access immediately", r.status, 401);
+  r = await call("POST", "/login", { email: "marc@t.test", password: "marcs new passphrase" }); eq("deactivated coach cannot log in", [r.status, /isn't active/.test(r.j.error)], [403, true]);
+  r = await call("POST", "/coach", { action: "reactivate", user_id: marcId }, { cookie: admin }); eq("reactivate", r.status, 200);
+  r = await call("POST", "/login", { email: "marc@t.test", password: "marcs new passphrase" }); eq("reactivated coach can log in again", r.status, 200);
+
+  // ---------- admin deletes + cascades ----------
+  r = await W({ op: "remove", table: "players", match: { id: "p1" } }); eq("admin deletes a player", r.status, 200);
+  r = await call("GET", "/all", undefined, { cookie: admin });
+  eq("cascade: player's feedback, reports, objectives are gone", [r.j.players.length, r.j.lesson_feedback.map(f => f.player_id), r.j.objectives.length, r.j.progress_reports.length], [2, ["p2"], 0, 0]);
+  r = await W({ op: "remove", table: "lessons", match: { id: "L1" } }); eq("admin deletes a lesson", r.status, 200);
+  r = await call("GET", "/all", undefined, { cookie: admin }); eq("cascade: lesson's feedback is gone", [r.j.lessons.length, r.j.lesson_feedback.length], [0, 0]);
+  r = await W({ op: "remove", table: "players", match: { id: "p1" } }); eq("deleting twice is harmless", r.status, 200);
+  r = await W({ op: "remove", table: "players", match: { id: "p2", extra: "x" } }); eq("remove with extra match keys refused", r.status, 400);
+
+  // ---------- concurrency ----------
+  await Promise.all(Array.from({ length: 12 }, (_, i) => W({ op: "upsert", table: "players", rows: [player("c" + i)] })));
+  r = await call("GET", "/all", undefined, { cookie: admin }); eq("12 simultaneous saves: none lost", r.j.players.filter(p => p.id.startsWith("c")).length, 12);
+  store.failNext = 3; r = await W({ op: "upsert", table: "players", rows: [player("retry1")] }); eq("save survives 3 write conflicts (retries)", r.status, 200);
+  store.failNext = 99; r = await W({ op: "upsert", table: "players", rows: [player("retry2")] }); store.failNext = 0; eq("persistent conflict ends with a polite 503, not corruption", r.status, 503);
+
+  // ---------- backup ----------
+  r = await call("GET", "/backup", undefined, { cookie: admin }); eq("admin can download a backup", [r.status, Array.isArray(r.j.players), typeof r.j.exported_at], [200, true, "string"]);
+  log(/attachment; filename="padel-beast-portal-backup-\d{4}-\d{2}-\d{2}\.json"/.test(r.headers["content-disposition"]) && !/"salt"|"hash"|"setup"/.test(r.raw), "backup is a download and has no password material");
+  r = await call("POST", "/login", { email: "marc@t.test", password: "marcs new passphrase" }, { ip: "3.3.3.3" }); const marc3 = r.cookie;
+  r = await call("GET", "/backup", undefined, { cookie: marc3 }); eq("coach cannot download a backup", r.status, 403);
+  r = await call("GET", "/backup"); eq("no login, no backup", r.status, 401);
+
+  // ---------- logout ----------
+  r = await call("POST", "/logout", {}, { cookie: adminB }); eq("logout", r.status, 200);
+  r = await call("GET", "/me", undefined, { cookie: adminB }); eq("session is dead after logout", r.status, 401);
+
+  // ---------- import (setup key) ----------
+  r = await call("POST", "/import", { table: "players", rows: [player("imp1")] }, { headers: { "x-setup-key": "wrong-wrong-wrong-wrong" }, ip: "7.7.7.7" }); eq("import: wrong key refused", r.status, 403);
+  r = await call("POST", "/import", { table: "players", rows: [player("imp1")] }, { ip: "7.7.7.8" }); eq("import: no key refused", r.status, 403);
+  r = await call("POST", "/import", { table: "players", rows: [player("imp1")] }, { headers: { "x-setup-key": KEY }, ip: "7.7.7.9" }); eq("import: players", [r.status, r.j.saved], [200, 1]);
+  r = await call("POST", "/import", { table: "content", rows: [{ key: "methodology", data: { levels: [1, 2] } }] }, { headers: { "x-setup-key": KEY }, ip: "7.7.7.9" }); eq("import: content", r.status, 200);
+  r = await call("GET", "/all", undefined, { cookie: admin }); eq("content is readable by coaches", r.j.content[0].data.levels, [1, 2]);
+  r = await call("POST", "/import", { table: "players", rows: [player("imp1")] }, { headers: { "x-setup-key": KEY }, env: { PORTAL_SETUP_KEY: "short" }, ip: "7.7.7.9" }); eq("import: refuses if the server key is unset/too short", r.status, 503);
+  for (let i = 0; i < 10; i++) await call("POST", "/import", { table: "players", rows: [] }, { headers: { "x-setup-key": "wrong-wrong-wrong-wrong" }, ip: "6.6.6.6" });
+  r = await call("POST", "/import", { table: "players", rows: [player("imp2")] }, { headers: { "x-setup-key": KEY }, ip: "6.6.6.6" }); eq("setup-key guessing is rate limited (even the right key is then blocked)", r.status, 429);
+
+  // ---------- recovery ----------
+  r = await call("POST", "/recover", { key: KEY, email: "admin@t.test" }, { ip: "5.5.5.5" }); eq("recover: setup key mints a link for a locked-out admin", [r.status, typeof r.j.token], [200, "string"]);
+  r = await call("POST", "/setup", { token: r.j.token, password: "brand new admin pass" }, { ip: "5.5.5.5" }); eq("recover: admin sets a new password", r.status, 200);
+  r = await call("POST", "/recover", { key: KEY, email: "nobody@t.test" }, { ip: "5.5.5.5" }); eq("recover: unknown email", r.status, 404);
+
+  // ---------- login brute force ----------
+  for (let i = 0; i < 8; i++) await call("POST", "/login", { email: "marc@t.test", password: "wrong wrong " + i }, { ip: "4.4." + i + ".1" });
+  r = await call("POST", "/login", { email: "marc@t.test", password: "marcs new passphrase" }, { ip: "4.4.99.1" }); eq("8 wrong passwords lock that email for 15 minutes (even the right password)", r.status, 429);
+  r = await call("POST", "/login", { email: "admin@t.test", password: "brand new admin pass" }, { ip: "4.4.99.2" }); eq("other accounts are unaffected", r.status, 200);
+
+  // ---------- misc ----------
+  r = await call("POST", "/login", { email: "admin@t.test", password: "brand new admin pass" }, { ip: "4.4.99.3" }); const adm3 = r.cookie;
+  r = await call("GET", "/nope", undefined, { cookie: adm3 }); eq("unknown route 404", r.status, 404);
+  r = await handle({ method: "POST", path: "/write", ip: "1.1.1.1", headers: { "x-portal": "1", cookie: adm3, host: "site.test" }, body: "{bad" }, store, env); eq("invalid JSON refused", r.status, 400);
+  r = await handle({ method: "POST", path: "/write", ip: "1.1.1.1", headers: { "x-portal": "1", cookie: adm3, host: "site.test" }, body: "[1,2]" }, store, env); eq("JSON array body refused", r.status, 400);
+  log(!JSON.stringify([...store.m.keys()]).includes("marc@t.test"), "emails are not used in storage keys (only hashes)");
+} catch (e) { log(false, "test run crashed", e.stack || e); }
+out.textContent += `\n${pass} passed, ${fail} failed${fail ? "\nFAILED: " + failures.join(" | ") : ""}\n`;
+window.__done = { pass, fail, failures };
+</script>

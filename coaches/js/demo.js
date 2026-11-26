@@ -1,4 +1,4 @@
-// LOCAL DEMO ONLY (api.js only loads this on localhost when Supabase is not configured).
+// LOCAL DEMO ONLY (api.js only loads this on localhost, where Netlify functions don't run).
 // All names and data below are fictional. Nothing is saved: a reload resets it.
 const clone = x => JSON.parse(JSON.stringify(x));
 const PK = { coaches: ["user_id"], players: ["id"], lessons: ["id"], lesson_feedback: ["lesson_id", "player_id"], progress_reports: ["id"], objectives: ["id"], session_plans: ["id"], content: ["key"] };
@@ -11,8 +11,9 @@ export async function demoBackend() {
   const jr = (id, name, group, level = 1, extra = {}) => ({ id, name, level, program: "Junior programme", junior_group: group, main_coach: null, side: "Both", hand: "Right", start_date: "2026-10-01", goal: "Enjoy padel", health_notes: null, dob: "2015-05-01", school: "Demo School", parent_name: "Parent Demo", parent_phone: "000 000 000", kit_size: "M", milestones: {}, level_history: [], is_sample: false, ...extra });
   const T = {
     coaches: [
-      { user_id: "demo-admin", name: "Demo Admin", email: "admin@demo.test", role: "admin", active: true },
-      { user_id: "demo-coach", name: "Demo Coach", email: "coach@demo.test", role: "coach", active: true },
+      { user_id: "demo-admin", name: "Demo Admin", email: "admin@demo.test", role: "admin", active: true, pending: false },
+      { user_id: "demo-coach", name: "Demo Coach", email: "coach@demo.test", role: "coach", active: true, pending: false },
+      { user_id: "demo-new", name: "Demo Newcoach", email: "new@demo.test", role: "coach", active: true, pending: true },
     ],
     players: [
       jr("dj01", "Alex Demo", "A"), jr("dj02", "Bailey Demo", "A", 1, { health_notes: "Demo note: tight calf, no sprints" }), jr("dj03", "Casey Demo", "A"),
@@ -40,26 +41,37 @@ export async function demoBackend() {
     session_plans: plans.map(p => ({ id: p.id, module: p.module, training: p.training, objectives: p.objectives, exercises: p.exercises, updated_by_name: p.updatedBy })),
     content: [{ key: "methodology", data: meth }],
   };
-  let user = null;
+  let user = null; // { user_id, name, email, role }
   try { user = JSON.parse(sessionStorage.getItem("pb_demo_user")); } catch { /* none */ }
-  const listeners = [];
-  const meRole = () => (T.coaches.find(c => c.user_id === user?.id) || {}).role;
-  const emit = (ev, s) => listeners.forEach(f => f(ev, s));
+  const tokens = { "demo-setup-link-0001": "demo-new" }; // try it: /coaches/setup#t=demo-setup-link-0001
+  const meRole = () => user?.role;
+  const asUser = c => ({ user_id: c.user_id, name: c.name, email: c.email, role: c.role });
+  const fail = (status, m) => Object.assign(new Error(m), { status });
+  const save = () => sessionStorage.setItem("pb_demo_user", JSON.stringify(user));
 
   return {
     auth: {
+      async status() { return { ready: true, bootstrap: false }; },
       async session() { return user ? { user } : null; },
       async signIn(email, password) {
-        if (!email || !password) throw new Error("Invalid login credentials");
-        user = { id: /admin/i.test(email) ? "demo-admin" : "demo-coach", email };
-        sessionStorage.setItem("pb_demo_user", JSON.stringify(user)); emit("SIGNED_IN", { user });
+        if (!email || !password) throw fail(401, "That email and password don't match.");
+        const c = T.coaches.find(x => x.email === String(email).toLowerCase()) || T.coaches.find(x => x.role === (/admin/i.test(email) ? "admin" : "coach"));
+        user = asUser(c); save();
       },
-      async signOut() { user = null; sessionStorage.removeItem("pb_demo_user"); emit("SIGNED_OUT", null); },
-      async resetPassword() { /* demo: pretend */ },
-      async updatePassword() { /* demo */ },
-      onChange(cb) { listeners.push(cb); },
+      async signOut() { user = null; sessionStorage.removeItem("pb_demo_user"); },
+      async setupInfo(token) { const c = T.coaches.find(x => x.user_id === tokens[token]); if (!c) throw fail(400, "This link has expired or was already used. Ask Navid for a new one."); return { name: c.name, email: c.email }; },
+      async setPassword(token, pw) {
+        const c = T.coaches.find(x => x.user_id === tokens[token]); if (!c) throw fail(400, "This link has expired or was already used. Ask Navid for a new one.");
+        if (pw.length < 10) throw fail(400, "Use at least 10 characters.");
+        delete tokens[token]; c.pending = false; user = asUser(c); save();
+      },
+      async firstAdmin() { throw fail(409, "Not available in demo mode."); },
+      async recover() { throw fail(403, "Not available in demo mode."); },
     },
-    async list(table) { await new Promise(r => setTimeout(r, 60)); return clone(T[table] || []); },
+    async all() {
+      await new Promise(r => setTimeout(r, 60));
+      return clone({ coaches: T.coaches, players: T.players, lessons: T.lessons, lesson_feedback: T.lesson_feedback, progress_reports: T.progress_reports, objectives: T.objectives, session_plans: T.session_plans, content: T.content });
+    },
     async upsert(table, rows, onConflict) {
       const keys = (onConflict ? onConflict.split(",") : PK[table]).map(s => s.trim());
       for (const r of clone(rows)) {
@@ -75,10 +87,19 @@ export async function demoBackend() {
       if (table === "players") for (const t of ["lesson_feedback", "progress_reports", "objectives"]) T[t] = T[t].filter(x => x.player_id !== match.id);
       if (table === "lessons") T.lesson_feedback = T.lesson_feedback.filter(x => x.lesson_id !== match.id);
     },
+    async backup() { if (meRole() !== "admin") throw fail(403, "Admins only."); return { exported_at: new Date().toISOString(), ...(await this.all()) }; },
     async manage(action, p) {
-      if (meRole() !== "admin") throw new Error("Admins only");
-      if (action === "invite") T.coaches.push({ user_id: "demo-" + p.email, name: p.name, email: p.email, role: p.role === "admin" ? "admin" : "coach", active: true });
-      else { const c = T.coaches.find(x => x.user_id === p.user_id); if (c) c.active = action === "reactivate"; }
+      if (meRole() !== "admin") throw fail(403, "Admins only.");
+      const mint = id => { const t = "demo-token-" + Math.random().toString(36).slice(2, 12); tokens[t] = id; return t; };
+      if (action === "invite") {
+        const id = "demo-" + p.email;
+        if (T.coaches.some(c => c.email === p.email)) throw fail(409, "That email is already a coach. Use “New link” in the list.");
+        T.coaches.push({ user_id: id, name: p.name, email: p.email, role: p.role === "admin" ? "admin" : "coach", active: true, pending: true });
+        return { token: mint(id) };
+      }
+      const c = T.coaches.find(x => x.user_id === p.user_id); if (!c) throw fail(404, "Coach not found.");
+      if (action === "link") return { token: mint(c.user_id) };
+      c.active = action === "reactivate"; return { ok: true };
     },
   };
 }

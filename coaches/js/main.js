@@ -1,4 +1,4 @@
-import { getBackend, demo } from "./api.js";
+import { getBackend, demo, onSessionExpired } from "./api.js";
 import * as store from "./store.js";
 import { D, ME, S, hooks, banner, isAdmin } from "./state.js";
 import { $, $$ } from "./util.js";
@@ -7,13 +7,26 @@ import * as Players from "./players.js";
 import * as Lessons from "./lessons.js";
 import * as Admin from "./admin.js";
 
-// Invite and password-reset links arrive with ?type in the URL hash. Read it before the library clears it.
-const HASH_TYPE = new URLSearchParams(location.hash.slice(1)).get("type");
 let api = null;
+// "Choose your password" links look like /coaches/setup#t=TOKEN. The token stays in the URL fragment (never sent to a server or logs),
+// is read once, then removed from the address bar.
+hooks.setup = { token: null };
+const takeSetupToken = () => {
+  if (location.pathname.replace(/\/$/, "") !== "/coaches/setup") return null;
+  const t = new URLSearchParams(location.hash.slice(1)).get("t");
+  history.replaceState(null, "", "/coaches/setup"); return t;
+};
+hooks.showSetup = async () => {
+  try {
+    const info = await api.auth.setupInfo(hooks.setup.token);
+    showLogin("setpw"); $("#setupHello").textContent = `Welcome, ${info.name}. Choose your own password (at least 10 characters). Only you will know it.`;
+  } catch (e) { hooks.setup.token = null; showLogin("login", e.status === 400 ? e.message : "Could not check that link. Please try again."); }
+};
 
 function applyRoute() {
   const [a, b] = location.pathname.replace(/^\/coaches\/?/, "").split("/").filter(Boolean);
   S.confirm = null;
+  if (a !== "team") S.link = null;
   if (a === "lessons") S.view = "lessons";
   else if (a === "team" && isAdmin()) { S.view = "team"; S.lf = null; }
   else { S.view = "players"; S.lf = null; if (a === "players" && b) S.sel = decodeURIComponent(b); }
@@ -41,10 +54,7 @@ const busy = () => $("#lform") || (S.tab === "new" && $("#rform")) || ($("#oform
 async function enter() {
   const session = await api.auth.session();
   if (!session) { showLogin("login"); return; }
-  let rows = [];
-  try { rows = await api.list("coaches"); } catch { /* handled below */ }
-  const me = rows.find(c => c.user_id === session.user.id);
-  if (!me || !me.active) { await api.auth.signOut(); showLogin("login", "This account isn't active. Ask Navid to check your access."); return; }
+  const me = session.user;
   Object.assign(ME, { user_id: me.user_id, name: me.name, email: me.email, role: me.role });
   try { await store.loadAll(); } catch (e) { showLogin("login", e.message || "Could not load the portal. Please try again."); return; }
   hideLogin(); document.title = "Coach Portal · Padel Beast";
@@ -58,7 +68,7 @@ hooks.enter = enter;
 // Forget everything on screen and in memory, so nothing lingers once someone has logged out.
 function wipe() {
   for (const k of Object.keys(D)) D[k] = [];
-  Object.assign(ME, { user_id: null, name: "", email: "", role: "coach" }); Object.assign(S, { sel: null, lf: null, tab: "progress", view: "players", confirm: null });
+  Object.assign(ME, { user_id: null, name: "", email: "", role: "coach" }); Object.assign(S, { sel: null, lf: null, tab: "progress", view: "players", confirm: null, link: null });
   for (const id of ["#roster", "#detail", "#mobSel", "#whoName"]) $(id).innerHTML = "";
   banner("");
   $("#dlg").open && $("#dlg").close();
@@ -73,6 +83,7 @@ document.addEventListener("click", async e => {
   const a = b.dataset.act;
   if (a === "auth-forgot") return showLogin("forgot");
   if (a === "auth-login") return showLogin("login");
+  if (a === "auth-recover") return showLogin("recover");
   if (a === "logout") return leave();
   if (a === "view") { S.lf = null; S.confirm = null; const v = b.dataset.v; hooks.go(v === "players" ? (S.sel ? "players/" + S.sel : "players") : v); return; }
   (await Lessons.onClick(a, b)) || (await Players.onClick(a, b)) || (await Admin.onClick(a, b));
@@ -96,13 +107,15 @@ document.addEventListener("visibilitychange", async () => {
 (async function boot() {
   Players.initPlayerDialog();
   api = await getBackend();
-  if (!api) { showLogin("unconfigured"); $("#pane-unconfigured .msg").textContent = "Setup is not finished: the Supabase project details are missing."; return; }
   store.useBackend(api);
-  api.auth.onChange(async event => {
-    if (event === "PASSWORD_RECOVERY") showLogin("setpw");
-    else if (event === "SIGNED_OUT" && ME.user_id) { wipe(); history.replaceState(null, "", "/coaches/login"); showLogin("login", "You were signed out."); }
-  });
-  const session = await api.auth.session();
-  if (session && (HASH_TYPE === "invite" || HASH_TYPE === "recovery")) { showLogin("setpw"); return; }
-  if (session) await enter(); else showLogin("login");
+  onSessionExpired(() => { if (ME.user_id) { wipe(); history.replaceState(null, "", "/coaches/login"); showLogin("login", "Your session ended. Please log in again."); } });
+  hooks.setup.token = takeSetupToken();
+  let status;
+  try { status = await api.auth.status(); } catch { showLogin("unconfigured"); $("#pane-unconfigured .msg").textContent = "Could not reach the portal server. Please try again in a moment."; return; }
+  if (hooks.setup.token) { await hooks.showSetup(); return; }
+  if (!status.ready) {
+    if (status.bootstrap) { showLogin("firstadmin"); return; }
+    showLogin("unconfigured"); $("#pane-unconfigured .msg").textContent = "Setup isn't finished yet: the admin still needs to add the setup key in Netlify."; return;
+  }
+  if (await api.auth.session()) await enter(); else showLogin("login");
 })();

@@ -32,22 +32,43 @@
     </section>
 
     <section id="pane-forgot" hidden>
-      <form id="forgotForm">
-        <p>Enter your email and we'll send you a link to choose a new password.</p>
-        <label>Email<input type="email" name="email" required autocomplete="username" inputmode="email"></label>
-        <button class="btn ball" type="submit" style="margin-top:6px">Send reset link</button>
-        <p class="msg" role="status"></p>
-        <button class="linkbtn" type="button" data-act="auth-login">Back to log in</button>
-      </form>
+      <p><b>Forgot your password?</b></p>
+      <p style="margin-top:8px">Ask Navid for a new password link. He sends it to you on WhatsApp, and you choose your own new password. Nobody else ever sees it.</p>
+      <button class="linkbtn" type="button" data-act="auth-login">Back to log in</button>
+      <button class="linkbtn" type="button" data-act="auth-recover" style="font-weight:400;font-size:13px">I'm the admin and I'm locked out</button>
     </section>
 
     <section id="pane-setpw" hidden>
       <form id="pwForm">
-        <p>Welcome. Choose your own password (at least 10 characters). Only you will know it.</p>
+        <p id="setupHello">Welcome. Choose your own password (at least 10 characters). Only you will know it.</p>
         <label>New password<input type="password" name="pw" required minlength="10" autocomplete="new-password"></label>
         <label>Repeat it<input type="password" name="pw2" required minlength="10" autocomplete="new-password"></label>
         <button class="btn ball" type="submit" style="margin-top:6px">Save password and continue</button>
         <p class="msg" role="status"></p>
+      </form>
+    </section>
+
+    <section id="pane-firstadmin" hidden>
+      <form id="firstForm">
+        <p><b>First-time setup.</b> Create the first admin account. You need the setup key you saved in Netlify (<code>PORTAL_SETUP_KEY</code>).</p>
+        <label>Setup key<input type="password" name="key" required autocomplete="off"></label>
+        <label>Your name<input name="name" required autocomplete="name"></label>
+        <label>Your email<input type="email" name="email" required autocomplete="username" inputmode="email"></label>
+        <label>Choose a password (10+ characters)<input type="password" name="pw" required minlength="10" autocomplete="new-password"></label>
+        <label>Repeat it<input type="password" name="pw2" required minlength="10" autocomplete="new-password"></label>
+        <button class="btn ball" type="submit" style="margin-top:6px">Create admin and continue</button>
+        <p class="msg" role="status"></p>
+      </form>
+    </section>
+
+    <section id="pane-recover" hidden>
+      <form id="recoverForm">
+        <p><b>Admin recovery.</b> With the setup key from Netlify you can choose a new password for an existing coach.</p>
+        <label>Setup key<input type="password" name="key" required autocomplete="off"></label>
+        <label>Coach email<input type="email" name="email" required autocomplete="username" inputmode="email"></label>
+        <button class="btn ball" type="submit" style="margin-top:6px">Continue</button>
+        <p class="msg" role="status"></p>
+        <button class="linkbtn" type="button" data-act="auth-login">Back to log in</button>
       </form>
     </section>
 
@@ -114,7 +135,6 @@
 </form></dialog>
 <div class="toast" id="toast" role="status"></div>
 
-<script src="/coaches/vendor/supabase.js"></script>
 <script type="module" src="/coaches/js/main.js"></script>
 </body>
 </html>
