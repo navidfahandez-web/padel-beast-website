@@ -25,6 +25,7 @@ header{background:var(--navy);color:var(--cream);border-bottom:6px solid var(--c
 .rail{display:flex;flex-direction:column;gap:10px}
 .rail .filters{display:flex;gap:8px}
 .roster{display:flex;flex-direction:column;gap:6px;max-height:70vh;overflow:auto;padding:2px}
+.roster>*{flex:0 0 auto}
 .pl{display:flex;gap:10px;align-items:center;text-align:left;width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--card);cursor:pointer;min-height:56px}
 .pl[aria-current=true]{border-color:var(--coral);box-shadow:inset 5px 0 0 var(--coral)}
 .pl b{display:block;font-weight:600}.pl small{color:var(--mut);font-size:13px}
