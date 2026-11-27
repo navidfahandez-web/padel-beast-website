@@ -131,3 +131,27 @@ details summary{list-style-position:inside}
 .copyrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
 .copyrow input{flex:1 1 260px;min-width:0}
 .auth code{font-size:13px}
+
+/* ───────── Phone-friendly lesson form ───────── */
+details>summary{cursor:pointer;list-style:none;min-height:44px;display:flex;flex-wrap:wrap;align-items:center;column-gap:6px;font-weight:700}
+details>summary::-webkit-details-marker{display:none}
+details>summary::before{content:"▸";display:inline-block;width:1em;transition:transform .15s;color:var(--mut)}
+details[open]>summary::before{transform:rotate(90deg)}
+details.hand{padding:6px 16px}
+details.hand>summary{font:800 15px var(--hd);font-stretch:125%;text-transform:uppercase}
+details.hand[open]>summary{margin-bottom:6px}
+.hint{flex:0 0 100%;margin:-4px 0 8px 1.3em;font-weight:500;font-size:13px;font-family:inherit;font-stretch:normal;text-transform:none;color:var(--mut)}
+details.more{margin-top:10px;border-top:1px solid var(--line)}
+details.more>summary{font-size:15px}
+.badge{color:var(--good);font-size:13px;font-weight:700}
+details.more2{border:1px solid var(--line);border-radius:12px;padding:0 14px;background:var(--card)}
+details.more2[open]{padding-bottom:14px}
+.savebar{position:sticky;bottom:0;z-index:20;margin:16px -20px -20px;padding:12px 20px calc(12px + env(safe-area-inset-bottom));background:var(--card);border-top:1px solid var(--line);border-radius:0 0 16px 16px;box-shadow:0 -6px 16px rgba(10,22,58,.08);display:flex}
+.savebar .btn{flex:1;min-height:52px;font-size:17px}
+.draftbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:#FFF1C2;border:1px solid var(--yellow,#FFC82C);border-radius:12px;padding:10px 14px;margin:0 0 14px;font-size:15px}
+@media (max-width:760px){
+  .card{padding:16px}
+  .savebar{margin:14px -16px -16px;padding-left:16px;padding-right:16px}
+  .rep{padding:12px}
+  .qc .chip{padding:8px 12px;font-size:14px}
+}

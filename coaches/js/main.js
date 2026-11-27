@@ -67,6 +67,7 @@ hooks.enter = enter;
 
 // Forget everything on screen and in memory, so nothing lingers once someone has logged out.
 function wipe() {
+  Lessons.clearDraft();
   for (const k of Object.keys(D)) D[k] = [];
   Object.assign(ME, { user_id: null, name: "", email: "", role: "coach" }); Object.assign(S, { sel: null, lf: null, tab: "progress", view: "players", confirm: null, link: null });
   for (const id of ["#roster", "#detail", "#mobSel", "#whoName"]) $(id).innerHTML = "";
@@ -89,7 +90,7 @@ document.addEventListener("click", async e => {
   (await Lessons.onClick(a, b)) || (await Players.onClick(a, b)) || (await Admin.onClick(a, b));
 });
 document.addEventListener("change", async e => { const t = e.target; Lessons.onChange(t) || (await Players.onChange(t)); });
-document.addEventListener("input", e => { const t = e.target; if (t.type === "range") t.nextElementSibling.textContent = t.value; if (t.id === "search") Players.renderRoster(); });
+document.addEventListener("input", e => { const t = e.target; if (t.type === "range") t.nextElementSibling.textContent = t.value; if (t.id === "search") Players.renderRoster(); Lessons.onInput(t); });
 // Block the browser's own form submit synchronously (before any await), so nothing is ever sent as a URL query.
 // Only the player dialog (method="dialog") is left alone: the browser closes it itself.
 document.addEventListener("submit", e => { if (e.target.id !== "pform") e.preventDefault(); }, true);

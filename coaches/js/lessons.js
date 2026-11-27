@@ -35,6 +35,35 @@ function lessonCard(l) {
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px"><button class="btn sm" data-act="editL" data-id="${esc(l.id)}">Edit</button>${!isAdmin() ? "" : S.confirm === "l" + l.id ? `<span class="confirm">Delete this lesson report?<button class="btn sm danger" data-act="delL" data-id="${esc(l.id)}">Delete</button><button class="btn sm" data-act="nocf">Keep</button></span>` : `<button class="btn sm danger" data-act="cf" data-c="l${esc(l.id)}">Delete</button>`}</div></article>`;
 }
 
+// ───────── Draft: an unfinished NEW report is kept on this device so a phone call, screen lock or app switch never loses it.
+// It holds children's feedback, so it is removed when the report is saved, after 3 days, and when you log out.
+const DK = () => "pb_draft_" + ME.user_id;
+let draftTimer = null;
+export const clearDraft = () => { try { localStorage.removeItem(DK()); } catch { /* ignore */ } };
+function loadDraft() { try { const d = JSON.parse(localStorage.getItem(DK()) || "null"); return d && Date.now() - d.t < 3 * 864e5 ? d : null; } catch { return null; } }
+function saveDraft() {
+  const f = $("#lform"); if (!f || !S.lf || S.lf.id) return;
+  syncFb(); const fields = {};
+  new FormData(f).forEach((v, k) => { if (typeof v === "string" && !k.startsWith("r_")) fields[k] = v; });
+  try { localStorage.setItem(DK(), JSON.stringify({ t: Date.now(), group: S.lf.group, players: [...S.lf.players], fb: S.lf.fb, fields })); } catch { /* storage full or blocked: carry on */ }
+}
+export function touch() { if (!S.lf || S.lf.id) return; clearTimeout(draftTimer); draftTimer = setTimeout(saveDraft, 600); }
+function draftBar() {
+  const d = loadDraft(); if (!d || S.lf.draftSeen) return "";
+  const t = new Date(d.t).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+  return `<div class="draftbar" id="draftbar"><span>You have an unsaved draft from ${esc(t)}.</span><span><button type="button" class="btn sm pri" data-act="restoreDraft">Restore it</button> <button type="button" class="btn sm" data-act="dropDraft">Discard</button></span></div>`;
+}
+function restoreDraft() {
+  const d = loadDraft(); if (!d) return;
+  S.lf.group = d.group; S.lf.players = new Set(d.players); S.lf.fb = d.fb || {}; S.lf.draftSeen = true;
+  lessonForm();
+  const f = $("#lform"), F = d.fields || {};
+  const set = (n, v) => { const e = f.elements[n]; if (!e || v == null) return; if (e.type === "checkbox") e.checked = v === "on"; else e.value = v; };
+  set("module", F.module); $("#ltr").innerHTML = trOpts(F.module ?? "", F.training); set("training", F.training);
+  Object.keys(F).forEach(k => { if (!["module", "training"].includes(k)) set(k, F[k]); });
+  refreshHand(); toast("Draft restored");
+}
+
 // ───────── Lesson form
 function newLF(l) { S.lf = { focusInit: null, id: l?.id || null, group: l?.group || "", players: new Set(l?.players || []), fb: JSON.parse(JSON.stringify(l?.fb || {})) }; }
 const trOpts = (mod, sel) => mod === "" || mod == null || !TRAIN[mod] ? '<option value="">—</option>' : '<option value="">—</option>' + TRAIN[mod].map((t, i) => `<option value="T${i + 1}"${sel === "T" + (i + 1) ? " selected" : ""}>T${i + 1} · ${esc(t)}</option>`).join("");
@@ -48,10 +77,10 @@ function fbHtml() {
   const ids = [...S.lf.players].filter(id => D.players.some(x => x.id === id));
   if (!ids.length) return '<p class="empty">Tap the players who were in this lesson.</p>';
   return ids.map(id => {
-    const p = D.players.find(x => x.id === id), f = S.lf.fb[id] || {}, lf = lastFb(id);
+    const p = D.players.find(x => x.id === id), f = S.lf.fb[id] || {}, lf = lastFb(id), has = !!(f.comment || f.improve || f.next);
     return `<div class="fb rep" data-pid="${esc(id)}"><div class="line"><h4>${esc(p.name)} <span class="tag">L${esc(p.level)}${p.group ? " · Group " + esc(p.group) : ""}</span></h4><select data-f="present" style="width:auto" aria-label="Attendance for ${esc(p.name)}">${["Present", "Late", "Absent"].map(x => `<option${(f.present || "Present") === x ? " selected" : ""}>${x}</option>`).join("")}</select></div>
     ${lf && (lf.f.next || lf.f.improve) ? `<p class="pnote">Last time (${fmt(lf.l.date)}): work on <b>${esc(lf.f.next || lf.f.improve)}</b></p>` : ""}<div class="rate" role="radiogroup" aria-label="Rating for ${esc(p.name)}">${[1, 2, 3, 4, 5].map(n => `<label class="rb"><input type="radio" name="r_${esc(id)}" value="${n}"${+f.rating === n ? " checked" : ""}><span>${n}</span></label>`).join("")}<span class="note">${f.rating ? esc(RATE[f.rating]) : "Rating 1–5"}</span></div>
-    <div class="form" style="margin-top:10px"><div class="full chips qc">${QUICK.map(q => `<button type="button" class="chip" data-act="qc" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div><label class="full">Personal feedback<textarea data-f="comment" placeholder="What ${esc(p.name)} did well today and what to work on">${esc(f.comment || "")}</textarea></label><label>Area to improve<input data-f="improve" value="${esc(f.improve || "")}" list="ar_${esc(id)}"><datalist id="ar_${esc(id)}">${(LV[p.level] || LV[1]).areas.map(a => `<option value="${esc(a)}">`).join("")}</datalist></label><label>Next lesson focus<input data-f="next" value="${esc(f.next || "")}">${lf?.f.next ? `<button type="button" class="chip" style="margin-top:6px" data-act="sameNext" data-v="${esc(lf.f.next)}">Same as last time: ${esc(lf.f.next)}</button>` : ""}</label></div></div>`;
+    <details class="more"${has ? " open" : ""}><summary>✎ Comment and next focus<span class="badge"${has ? "" : " hidden"}> ✓ written</span></summary><div class="form" style="margin-top:10px"><div class="full chips qc">${QUICK.map(q => `<button type="button" class="chip" data-act="qc" data-q="${esc(q)}">${esc(q)}</button>`).join("")}</div><label class="full">Personal feedback<textarea data-f="comment" placeholder="What ${esc(p.name)} did well today and what to work on">${esc(f.comment || "")}</textarea></label><label>Area to improve<input data-f="improve" value="${esc(f.improve || "")}" list="ar_${esc(id)}"><datalist id="ar_${esc(id)}">${(LV[p.level] || LV[1]).areas.map(a => `<option value="${esc(a)}">`).join("")}</datalist></label><label>Next lesson focus<input data-f="next" value="${esc(f.next || "")}">${lf?.f.next ? `<button type="button" class="chip" style="margin-top:6px" data-act="sameNext" data-v="${esc(lf.f.next)}">Same as last time: ${esc(lf.f.next)}</button>` : ""}</label></div></details></div>`;
   }).join("");
 }
 function syncFb() {
@@ -60,13 +89,13 @@ function syncFb() {
     const r = c.querySelector("input[type=radio]:checked"); f.rating = r ? +r.value : 0; S.lf.fb[c.dataset.pid] = f;
   });
 }
-function handoverHtml() {
+function handoverHtml(openState) {
   const ids = [...S.lf.players].filter(id => D.players.some(x => x.id === id)), prev = prevLesson(S.lf.group, ids);
   if (!ids.length && !prev) return "";
   const rows = ids.map(id => { const p = D.players.find(x => x.id === id), lf = lastFb(id), f = lf?.f || {}; return `<tr><td><b>${esc(p.name)}</b></td><td>${lf ? `${esc(f.present || "Present")}${f.rating ? " · " + esc(f.rating) + "/5" : ""} <span class="note">(${fmt(lf.l.date)}, ${esc(lf.l.coach || "—")})</span>` : '<span class="note">First lesson</span>'}</td><td>${esc(f.next || f.improve || "—")}</td><td>${p.health ? `<b style="color:var(--bad)">${esc(p.health)}</b>` : "—"}</td></tr>`; }).join("");
-  return `<div class="hand" id="hand"><h4>Hand-over from the last lesson</h4>${prev ? `<p style="margin:0 0 6px"><b>${fmt(prev.date)} · Coach ${esc(prev.coach || "—")}</b>${lessonTitle(prev) ? " · " + esc(lessonTitle(prev)) : ""}</p>${prev.summary ? `<p style="margin:0 0 8px">${esc(prev.summary)}</p>` : ""}` : '<p style="margin:0 0 8px">No earlier lesson for this group yet.</p>'}${rows ? `<div class="scroll"><table class="stack"><thead><tr><th>Player</th><th>Last time</th><th>Work on today</th><th>Health</th></tr></thead><tbody>${rows}</tbody></table></div>` : ""}</div>`;
+  return `<details class="hand" id="hand"${(openState ?? innerWidth > 760) ? " open" : ""}><summary>Hand-over from the last lesson<span class="hint"> · tap to read</span></summary>${prev ? `<p style="margin:0 0 6px"><b>${fmt(prev.date)} · Coach ${esc(prev.coach || "—")}</b>${lessonTitle(prev) ? " · " + esc(lessonTitle(prev)) : ""}</p>${prev.summary ? `<p style="margin:0 0 8px">${esc(prev.summary)}</p>` : ""}` : '<p style="margin:0 0 8px">No earlier lesson for this group yet.</p>'}${rows ? `<div class="scroll"><table class="stack"><thead><tr><th>Player</th><th>Last time</th><th>Work on today</th><th>Health</th></tr></thead><tbody>${rows}</tbody></table></div>` : ""}</details>`;
 }
-const refreshHand = () => { const el = $("#handwrap"); if (el) el.innerHTML = handoverHtml(); };
+const refreshHand = () => { const el = $("#handwrap"); if (el) el.innerHTML = handoverHtml($("#hand")?.open); };
 
 function applyPlan(force) {
   const m = $("#lmod")?.value, t = $("#ltr")?.value, note = $("#planNote"); if (!note) return;
@@ -96,21 +125,24 @@ export function lessonForm() {
   if (!l && S.lf.focusInit == null && nx) S.lf.focusInit = TRAIN[nx.m]?.[+nx.t.slice(1) - 1] || "";
   const ex = [...(l?.exercises || [])]; while (ex.length < 5) ex.push({});
   $("#detail").innerHTML = `<form class="card" id="lform"><div class="line"><h3>${l ? "Edit lesson report" : "New lesson report"}</h3><button type="button" class="btn sm" data-act="closeL">Cancel</button></div>
-  <div id="handwrap" style="margin-bottom:16px">${handoverHtml()}</div>
+  ${l ? "" : draftBar()}<div id="handwrap" style="margin-bottom:16px">${handoverHtml()}</div>
   <div class="form">
   <label>Date<input type="date" name="date" value="${esc(l?.date || today())}" required></label>
   ${coachField(l)}
   <label>Group<select name="group" id="lgroup">${Object.entries(GRL).map(([k, v]) => `<option value="${k}"${g === k ? " selected" : ""}>${esc(v)}</option>`).join("")}</select></label>
   <label>Junior module<select name="module" id="lmod"><option value="">Not a junior module</option>${JRS.map((n, i) => `<option value="${i}"${String(mod) === String(i) ? " selected" : ""}>M${i + 1} · ${esc(n)}</option>`).join("")}</select></label>
   <label>Training session<select name="training" id="ltr">${trOpts(mod, trSel)}</select></label>
+  <details class="full more2"${l ? " open" : ""}><summary>Focus, objectives and exercises<span class="hint"> · optional, the plan loads for you</span></summary><div class="form" style="margin-top:10px">
   <label>Lesson focus<input name="focus" id="lfocus" value="${esc(l?.focus || S.lf.focusInit || "")}" placeholder="e.g. Forehand volley basics"></label>
   <label class="full">Session objectives<input name="objectives" value="${esc(l?.objectives || "")}" placeholder="What the players should be able to do by the end"></label>
   <label class="full">What we did in the lesson<textarea name="summary" required placeholder="Warm-up, drills and games, what the group worked on and how it went">${esc(l?.summary || "")}</textarea></label>
   <div class="full"><label>Exercises</label><p class="pnote" id="planNote"></p>${ex.slice(0, 5).map((x, i) => `<div class="exr"><input name="ex_n${i}" value="${esc(x.name || "")}" placeholder="Exercise ${i + 1}" aria-label="Exercise ${i + 1}"><input name="ex_m${i}" value="${esc(x.min || "")}" inputmode="numeric" placeholder="Min" aria-label="Minutes"><input name="ex_o${i}" value="${esc(x.obj || "")}" placeholder="Objective" aria-label="Objective"></div>`).join("")}<label class="ms" style="border:0;margin-top:6px"><input type="checkbox" name="savePlan"><span>Save these exercises as the plan for this session, so the next coach starts from them</span></label></div>
+  </div></details>
   <div class="full"><label>Players in this lesson: tap to add or remove</label><div id="lpick">${pickHtml()}</div></div>
   </div>
   <div class="line" style="margin:22px 0 10px"><h3>Personal reports</h3><button type="button" class="btn sm ball" data-act="allPresent">Everyone present · 3/5</button></div><div id="fbwrap">${fbHtml()}</div>
-  <div class="line" style="margin-top:16px"><span class="note">1 needs a lot of work · 2 developing · 3 good · 4 very good · 5 excellent</span><button class="btn pri">${l ? "Update lesson report" : "Save lesson report"}</button></div></form>`;
+  <p class="note" style="margin-top:12px">1 needs a lot of work · 2 developing · 3 good · 4 very good · 5 excellent</p>
+  <div class="savebar"><button class="btn pri" type="submit">${l ? "Update lesson report" : "Save lesson report"}</button></div></form>`;
   applyPlan(false);
 }
 
@@ -125,6 +157,8 @@ export function startLesson(p) {
 export async function onClick(a, b) {
   if (a === "newLesson") { startLesson(S.view === "players" ? player() : null); return true; }
   if (a === "editL") { newLF(D.lessons.find(x => x.id === b.dataset.id)); S.view = "lessons"; $("#detail").innerHTML = ""; hooks.go("lessons"); scrollTo(0, 0); return true; }
+  if (a === "restoreDraft") { restoreDraft(); return true; }
+  if (a === "dropDraft") { clearDraft(); if (S.lf) S.lf.draftSeen = true; $("#draftbar")?.remove(); return true; }
   if (a === "closeL") { S.lf = null; hooks.render(); return true; }
   if (a === "lp") { syncFb(); const id = b.dataset.id; S.lf.players.has(id) ? S.lf.players.delete(id) : S.lf.players.add(id); b.setAttribute("aria-pressed", S.lf.players.has(id)); $("#fbwrap").innerHTML = fbHtml(); refreshHand(); return true; }
   if (a === "loadPlan") { applyPlan(true); return true; }
@@ -136,7 +170,13 @@ export async function onClick(a, b) {
   return false;
 }
 
+export function onInput(t) {
+  const m = t.closest?.(".more"); if (m) { const b = m.querySelector(".badge"), has = [...m.querySelectorAll("[data-f]")].some(i => i.value.trim()); if (b) b.hidden = !has; }
+  if (t.closest?.("#lform")) touch();
+}
+
 export function onChange(t) {
+  if (t.closest?.("#lform")) touch();
   if (t.id === "lg" || t.id === "lc") { S[t.id] = t.value; viewLessons(); return true; }
   if (t.id === "lgroup") {
     syncFb(); S.lf.group = t.value;
@@ -163,6 +203,6 @@ export async function onSubmit(f, e) {
   if (isAdmin()) { const v = String(fd.get("coach") || ""); const c = D.coaches.find(x => x.user_id === v); if (c) { coachId = c.user_id; coach = c.name; } }
   const mod = fd.get("module"), rec = { id: S.lf.id || uid(), date: fd.get("date"), coachId, coach, group: fd.get("group"), module: mod === "" ? "" : +mod, training: fd.get("training") || "", focus: String(fd.get("focus") || "").trim(), objectives: String(fd.get("objectives") || "").trim(), summary: String(fd.get("summary") || "").trim(), exercises: ex };
   const plan = fd.get("savePlan") && rec.module !== "" && rec.training ? { id: "M" + (rec.module + 1) + rec.training, module: rec.module, training: rec.training, objectives: rec.objectives, exercises: ex } : null;
-  if (await done(() => store.saveLesson(rec, fb, plan), old ? "Lesson report updated" : "Lesson report saved")) { S.lf = null; hooks.render(); scrollTo(0, 0); }
+  if (await done(() => store.saveLesson(rec, fb, plan), old ? "Lesson report updated" : "Lesson report saved")) { if (!old) clearDraft(); S.lf = null; hooks.render(); scrollTo(0, 0); }
   return true;
 }
